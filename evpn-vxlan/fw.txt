@@ -1,0 +1,208 @@
+vyos@vyos:~$ show configuration 
+interfaces {
+    ethernet eth0 {
+        address dhcp
+        hw-id 0c:c9:4b:2f:00:00
+    }
+    ethernet eth1 {
+        hw-id 0c:c9:4b:2f:00:01
+        vif 100 {
+            address 192.168.100.1/24
+        }
+    }
+    ethernet eth2 {
+        address 192.168.99.0/31
+        hw-id 0c:c9:4b:2f:00:02
+    }
+    loopback lo {
+    }
+}
+nat {
+    source {
+        rule 10 {
+            outbound-interface eth0
+            translation {
+                address masquerade
+            }
+        }
+    }
+}
+protocols {
+    bgp 65000 {
+        address-family {
+            ipv4-unicast {
+                network 0.0.0.0/0 {
+                }
+            }
+        }
+        neighbor 192.168.99.1 {
+            address-family {
+                ipv4-unicast {
+                    default-originate {
+                    }
+                    soft-reconfiguration {
+                        inbound
+                    }
+                }
+            }
+            description R2
+            remote-as 65002
+        }
+    }
+}
+service {
+    dhcp-server {
+        listen-address 192.168.99.0
+        listen-address 192.168.100.1
+        shared-network-name VLAN100 {
+            authoritative
+            name-server 192.168.0.53
+            subnet 192.168.100.0/24 {
+                default-router 192.168.100.1
+                range DHCP {
+                    start 192.168.100.100
+                    stop 192.168.100.200
+                }
+            }
+        }
+        shared-network-name VLAN1000 {
+            authoritative
+            name-server 192.168.0.53
+            subnet 192.168.5.0/24 {
+                default-router 192.168.5.1
+                range DHCP {
+                    start 192.168.5.100
+                    stop 192.168.5.200
+                }
+            }
+        }
+        shared-network-name VLAN1001 {
+            authoritative
+            name-server 192.168.0.53
+            subnet 192.168.6.0/24 {
+                default-router 192.168.6.1
+                range DHCP {
+                    start 192.168.6.100
+                    stop 192.168.6.200
+                }
+            }
+        }
+        shared-network-name VLAN1002 {
+            authoritative
+            name-server 192.168.0.53
+            subnet 192.168.7.0/24 {
+                default-router 192.168.7.1
+                range DHCP {
+                    start 192.168.7.100
+                    stop 192.168.7.200
+                }
+            }
+        }
+    }
+    ssh {
+    }
+}
+system {
+    config-management {
+        commit-revisions 100
+    }
+    conntrack {
+        modules {
+            ftp
+            h323
+            nfs
+            pptp
+            sip
+            sqlnet
+            tftp
+        }
+    }
+    console {
+        device ttyS0 {
+            speed 115200
+        }
+    }
+    host-name vyos
+    login {
+        user vyos {
+            authentication {
+                encrypted-password ****************
+                plaintext-password ****************
+            }
+        }
+    }
+    ntp {
+        server time1.vyos.net {
+        }
+        server time2.vyos.net {
+        }
+        server time3.vyos.net {
+        }
+    }
+    syslog {
+        global {
+            facility all {
+                level info
+            }
+            facility protocols {
+                level debug
+            }
+        }
+    }
+}
+
+
+set interfaces ethernet eth0 address 'dhcp'
+set interfaces ethernet eth0 hw-id '0c:c9:4b:2f:00:00'
+set interfaces ethernet eth1 hw-id '0c:c9:4b:2f:00:01'
+set interfaces ethernet eth1 vif 100 address '192.168.100.1/24'
+set interfaces ethernet eth2 address '192.168.99.0/31'
+set interfaces ethernet eth2 hw-id '0c:c9:4b:2f:00:02'
+set interfaces loopback lo
+set nat source rule 10 outbound-interface 'eth0'
+set nat source rule 10 translation address 'masquerade'
+set protocols bgp 65000 address-family ipv4-unicast network 0.0.0.0/0
+set protocols bgp 65000 neighbor 192.168.99.1 address-family ipv4-unicast default-originate
+set protocols bgp 65000 neighbor 192.168.99.1 address-family ipv4-unicast soft-reconfiguration inbound
+set protocols bgp 65000 neighbor 192.168.99.1 description 'R2'
+set protocols bgp 65000 neighbor 192.168.99.1 remote-as '65002'
+set service dhcp-server listen-address '192.168.99.0'
+set service dhcp-server listen-address '192.168.100.1'
+set service dhcp-server shared-network-name VLAN100 authoritative
+set service dhcp-server shared-network-name VLAN100 name-server '192.168.0.53'
+set service dhcp-server shared-network-name VLAN100 subnet 192.168.100.0/24 default-router '192.168.100.1'
+set service dhcp-server shared-network-name VLAN100 subnet 192.168.100.0/24 range DHCP start '192.168.100.100'
+set service dhcp-server shared-network-name VLAN100 subnet 192.168.100.0/24 range DHCP stop '192.168.100.200'
+set service dhcp-server shared-network-name VLAN1000 authoritative
+set service dhcp-server shared-network-name VLAN1000 name-server '192.168.0.53'
+set service dhcp-server shared-network-name VLAN1000 subnet 192.168.5.0/24 default-router '192.168.5.1'
+set service dhcp-server shared-network-name VLAN1000 subnet 192.168.5.0/24 range DHCP start '192.168.5.100'
+set service dhcp-server shared-network-name VLAN1000 subnet 192.168.5.0/24 range DHCP stop '192.168.5.200'
+set service dhcp-server shared-network-name VLAN1001 authoritative
+set service dhcp-server shared-network-name VLAN1001 name-server '192.168.0.53'
+set service dhcp-server shared-network-name VLAN1001 subnet 192.168.6.0/24 default-router '192.168.6.1'
+set service dhcp-server shared-network-name VLAN1001 subnet 192.168.6.0/24 range DHCP start '192.168.6.100'
+set service dhcp-server shared-network-name VLAN1001 subnet 192.168.6.0/24 range DHCP stop '192.168.6.200'
+set service dhcp-server shared-network-name VLAN1002 authoritative
+set service dhcp-server shared-network-name VLAN1002 name-server '192.168.0.53'
+set service dhcp-server shared-network-name VLAN1002 subnet 192.168.7.0/24 default-router '192.168.7.1'
+set service dhcp-server shared-network-name VLAN1002 subnet 192.168.7.0/24 range DHCP start '192.168.7.100'
+set service dhcp-server shared-network-name VLAN1002 subnet 192.168.7.0/24 range DHCP stop '192.168.7.200'
+set service ssh
+set system config-management commit-revisions '100'
+set system conntrack modules ftp
+set system conntrack modules h323
+set system conntrack modules nfs
+set system conntrack modules pptp
+set system conntrack modules sip
+set system conntrack modules sqlnet
+set system conntrack modules tftp
+set system console device ttyS0 speed '115200'
+set system host-name 'vyos'
+set system login user vyos authentication encrypted-password '$6$89/vjXtc$xRI3ICVEvrVLq.llJx7oeR6VctyuEO879Ax0bjX5fitCKWU4dtlUuoLExgop950o4i6SLHy6rYpfCJxtVQC5Y0'
+set system login user vyos authentication plaintext-password ''
+set system ntp server time1.vyos.net
+set system ntp server time2.vyos.net
+set system ntp server time3.vyos.net
+set system syslog global facility all level 'info'
+set system syslog global facility protocols level 'debug'
