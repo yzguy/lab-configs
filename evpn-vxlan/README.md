@@ -27,6 +27,12 @@ Credentials:
 * Ubuntu: `ubuntu/ubuntu`
 
 
+## Network
+
+* Underlay: 192.168.11.0/24 (/31s per link)
+* Overlay: 192.168.10.0/24 (/32 per device)
+* VTEPs: 192.168.9.0/24 (/32 per VTEP)
+
 ## EVPN-VXLAN
 
 ```
