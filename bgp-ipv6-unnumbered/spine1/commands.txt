@@ -1,0 +1,105 @@
+spine1#show ip route
+
+VRF: default
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - BGP, B I - iBGP, B E - eBGP,
+       R - RIP, I L1 - IS-IS level 1, I L2 - IS-IS level 2,
+       O3 - OSPFv3, A B - BGP Aggregate, A O - OSPF Summary,
+       NG - Nexthop Group Static Route, V - VXLAN Control Service,
+       DH - DHCP client installed default route, M - Martian,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       RC - Route Cache Route
+
+Gateway of last resort:
+ B E      0.0.0.0/0 [200/0]
+           via fe80::5200:ff:fe09:1, Ethernet8
+
+ B E      172.99.0.0/32 [200/0]
+           via fe80::5200:ff:fe09:1, Ethernet8
+ C        172.99.0.1/32 [0/0]
+           via Loopback0, directly connected
+ B E      172.99.1.1/32 [200/0]
+           via fe80::5200:ff:fed5:5dc0, Ethernet1
+ B E      172.99.1.2/32 [200/0]
+           via fe80::5200:ff:fe03:3766, Ethernet2
+ B E      172.99.1.3/32 [200/0]
+           via fe80::5200:ff:fe15:f4e8, Ethernet3
+ B E      172.100.10.0/24 [200/0]
+           via fe80::5200:ff:fed5:5dc0, Ethernet1
+ B E      172.100.20.0/24 [200/0]
+           via fe80::5200:ff:fe03:3766, Ethernet2
+ B E      172.100.30.0/24 [200/0]
+           via fe80::5200:ff:fe15:f4e8, Ethernet3
+
+spine1#show ipv6 route
+
+VRF: default
+Displaying 7 of 10 IPv6 routing table entries
+Codes: C - connected, S - static, K - kernel, O3 - OSPFv3, B - BGP, R - RIP, A B - BGP Aggregate, I L1 - IS-IS level 1, I L2 - IS-IS level 2, DH - DHCP, NG - Nexthop Group Static Route, M - Martian, DP - Dynamic Policy Route, L - VRF Leaked, RC - Route Cache Route
+
+ B        fd98:f21:c89a::/128 [200/0]
+           via fe80::5200:ff:fe09:1, Ethernet8
+ C        fd98:f21:c89a::1/128 [0/0]
+           via Loopback0, directly connected
+ B        fd98:f21:c89a:1::1/128 [200/0]
+           via fe80::5200:ff:fed5:5dc0, Ethernet1
+ B        fd98:f21:c89a:1::2/128 [200/0]
+           via fe80::5200:ff:fe03:3766, Ethernet2
+ B        fd98:f21:c89a:10::/64 [200/0]
+           via fe80::5200:ff:fed5:5dc0, Ethernet1
+ B        fd98:f21:c89a:20::/64 [200/0]
+           via fe80::5200:ff:fe03:3766, Ethernet2
+ B        fd98:f21:c89a:30::/64 [200/0]
+           via fe80::5200:ff:fe15:f4e8, Ethernet3
+
+spine1#show ip bgp summary
+BGP summary information for VRF default
+Router identifier 172.99.0.1, local AS number 65000
+Neighbor Status Codes: m - Under maintenance
+  Neighbor         V  AS           MsgRcvd   MsgSent  InQ OutQ  Up/Down State   PfxRcd PfxAcc
+  fe80::5200:ff:fe03:3766%Et2 4 65002           2076      2064    0    0 00:33:05 Estab   2      2
+  fe80::5200:ff:fe09:1%Et8 4 199344           159       129    0    0 00:35:58 Estab   2      2
+  fe80::5200:ff:fe15:f4e8%Et3 4 65003           2096      2077    0    0 00:32:56 Estab   2      2
+  fe80::5200:ff:fed5:5dc0%Et1 4 65001           2120      2100    0    0 00:33:17 Estab   2      2
+
+spine1#show bgp ipv4 unicast
+BGP routing table information for VRF default
+Router identifier 172.99.0.1, local AS number 65000
+Route status codes: s - suppressed, * - valid, > - active, E - ECMP head, e - ECMP
+                    S - Stale, c - Contributing to ECMP, b - backup, L - labeled-unicast
+                    % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+RPKI Origin Validation codes: V - valid, I - invalid, U - unknown
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
+
+          Network                Next Hop              Metric  AIGP       LocPref Weight  Path
+ * >      0.0.0.0/0              fe80::5200:ff:fe09:1%Et8 0       -          100     0       199344 ?
+ * >      172.99.0.0/32          fe80::5200:ff:fe09:1%Et8 0       -          100     0       199344 i
+ * >      172.99.0.1/32          -                     -       -          -       0       i
+ * >      172.99.1.1/32          fe80::5200:ff:fed5:5dc0%Et1 0       -          100     0       65001 i
+ * >      172.99.1.2/32          fe80::5200:ff:fe03:3766%Et2 0       -          100     0       65002 i
+ * >      172.99.1.3/32          fe80::5200:ff:fe15:f4e8%Et3 0       -          100     0       65003 i
+ * >      172.100.10.0/24        fe80::5200:ff:fed5:5dc0%Et1 0       -          100     0       65001 i
+ * >      172.100.20.0/24        fe80::5200:ff:fe03:3766%Et2 0       -          100     0       65002 i
+ * >      172.100.30.0/24        fe80::5200:ff:fe15:f4e8%Et3 0       -          100     0       65003 i
+
+spine1#show bgp ipv6 unicast
+BGP routing table information for VRF default
+Router identifier 172.99.0.1, local AS number 65000
+Route status codes: s - suppressed, * - valid, > - active, E - ECMP head, e - ECMP
+                    S - Stale, c - Contributing to ECMP, b - backup, L - labeled-unicast
+                    % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+RPKI Origin Validation codes: V - valid, I - invalid, U - unknown
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
+
+          Network                Next Hop              Metric  AIGP       LocPref Weight  Path
+ * >      fd98:f21:c89a::/128    fe80::5200:ff:fe09:1%Et8 0       -          100     0       199344 i
+ * >      fd98:f21:c89a::1/128   -                     -       -          -       0       i
+ * >      fd98:f21:c89a:1::1/128 fe80::5200:ff:fed5:5dc0%Et1 0       -          100     0       65001 i
+ * >      fd98:f21:c89a:1::2/128 fe80::5200:ff:fe03:3766%Et2 0       -          100     0       65002 i
+ * >      fd98:f21:c89a:10::/64  fe80::5200:ff:fed5:5dc0%Et1 0       -          100     0       65001 i
+ * >      fd98:f21:c89a:20::/64  fe80::5200:ff:fe03:3766%Et2 0       -          100     0       65002 i
+ * >      fd98:f21:c89a:30::/64  fe80::5200:ff:fe15:f4e8%Et3 0       -          100     0       65003 i
