@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lab name="VXLAN" version="1" scripttimeout="300" countdown="0" lock="0" sat="-1">
+  <topology>
+    <nodes>
+      <node id="1" name="SW1" type="qemu" template="veos" image="veos-lab-4.30.3M" console="telnet" cpu="2" cpulimit="0" ram="4096" ethernet="9" uuid="f1ec05d9-c732-4913-93ec-8e73586bfb98" firstmac="9c:78:86:00:00:00" qemu_options="-machine type=pc,accel=kvm -serial mon:stdio -nographic -display none -no-user-config -rtc base=utc -boot order=d" qemu_version="4.1.0" qemu_arch="x86_64" delay="0" sat="0" icon="AristaSW.png" config="0" left="306" top="219">
+        <interface id="0" name="Mgmt1" type="ethernet" network_id="1" vid="1" labelpos="0.5" curviness="10" beziercurviness="150" midpoint="0.5" srcpos="0.15" dstpos="0.85"/>
+        <interface id="2" name="Eth2" type="ethernet" network_id="2" vid="1" labelpos="0.5" curviness="10" beziercurviness="150" midpoint="0.5" srcpos="0.15" dstpos="0.85"/>
+        <interface id="3" name="Eth3" type="ethernet" network_id="4" vid="1" labelpos="0.5" curviness="10" beziercurviness="150" midpoint="0.5" srcpos="0.15" dstpos="0.85"/>
+        <interface id="6" name="Eth6" type="ethernet" network_id="5" vid="1" labelpos="0.5" curviness="10" beziercurviness="150" midpoint="0.5" srcpos="0.15" dstpos="0.85"/>
+        <interface id="8" name="Eth8" type="ethernet" network_id="7" vid="1" labelpos="0.5" curviness="10" beziercurviness="150" midpoint="0.5" srcpos="0.15" dstpos="0.85"/>
+      </node>
+      <node id="2" name="SW2" type="qemu" template="veos" image="veos-lab-4.30.3M" console="telnet" cpu="2" cpulimit="0" ram="4096" ethernet="9" uuid="68081bea-7278-4282-ba7d-28b1180b9724" firstmac="9c:78:86:01:00:00" qemu_options="-machine type=pc,accel=kvm -serial mon:stdio -nographic -display none -no-user-config -rtc base=utc -boot order=d" qemu_version="4.1.0" qemu_arch="x86_64" delay="0" sat="0" icon="AristaSW.png" config="0" left="585" top="219">
+        <interface id="0" name="Mgmt1" type="ethernet" network_id="1" vid="1" labelpos="0.5" curviness="10" beziercurviness="150" midpoint="0.5" srcpos="0.15" dstpos="0.85"/>
+        <interface id="1" name="Eth1" type="ethernet" network_id="2" vid="1" labelpos="0.5" curviness="10" beziercurviness="150" midpoint="0.5" srcpos="0.15" dstpos="0.85"/>
+        <interface id="3" name="Eth3" type="ethernet" network_id="3" vid="1" labelpos="0.5" curviness="10" beziercurviness="150" midpoint="0.5" srcpos="0.15" dstpos="0.85"/>
+        <interface id="7" name="Eth7" type="ethernet" network_id="6" vid="1" labelpos="0.5" curviness="10" beziercurviness="150" midpoint="0.5" srcpos="0.15" dstpos="0.85"/>
+        <interface id="8" name="Eth8" type="ethernet" network_id="11" vid="1" labelpos="0.5" curviness="10" beziercurviness="150" midpoint="0.5" srcpos="0.15" dstpos="0.85"/>
+      </node>
+      <node id="3" name="SW3" type="qemu" template="veos" image="veos-lab-4.30.3M" console="telnet" cpu="2" cpulimit="0" ram="4096" ethernet="9" uuid="4aacd0f8-ac83-4bc2-9444-488282bbe147" firstmac="9c:78:86:02:00:00" qemu_options="-machine type=pc,accel=kvm -serial mon:stdio -nographic -display none -no-user-config -rtc base=utc -boot order=d" qemu_version="4.1.0" qemu_arch="x86_64" delay="0" sat="0" icon="AristaSW.png" config="0" left="432" top="513">
+        <interface id="0" name="Mgmt1" type="ethernet" network_id="1" vid="1" labelpos="0.5" curviness="10" beziercurviness="150" midpoint="0.5" srcpos="0.15" dstpos="0.85"/>
+        <interface id="1" name="Eth1" type="ethernet" network_id="4" vid="1" labelpos="0.5" curviness="10" beziercurviness="150" midpoint="0.5" srcpos="0.15" dstpos="0.85"/>
+        <interface id="2" name="Eth2" type="ethernet" network_id="3" vid="1" labelpos="0.5" curviness="10" beziercurviness="150" midpoint="0.5" srcpos="0.15" dstpos="0.85"/>
+        <interface id="4" name="Eth4" type="ethernet" network_id="9" vid="1" labelpos="0.5" curviness="10" beziercurviness="150" midpoint="0.5" srcpos="0.15" dstpos="0.85"/>
+      </node>
+      <node id="4" name="S1" type="qemu" template="linux-cloud" image="linux-cloud-debian12" console="telnet" cpu="1" cpulimit="0" ram="1024" ethernet="1" uuid="dc99a324-ade9-43fc-8605-e0c3396a4314" shutdown="1" firstmac="50:00:00:04:00:00" qemu_options="-machine type=pc,accel=kvm -nographic -usbdevice tablet -boot order=cd -cpu host -serial mon:stdio" qemu_version="2.12.0" qemu_arch="x86_64" qemu_nic="virtio-net-pci" delay="0" sat="0" icon="Server.png" config="0" left="228" top="66">
+        <interface id="0" name="e0" type="ethernet" network_id="5" vid="1" labelpos="0.5" curviness="10" beziercurviness="150" midpoint="0.5" srcpos="0.15" dstpos="0.85"/>
+      </node>
+      <node id="5" name="S2" type="qemu" template="linux-cloud" image="linux-cloud-debian12" console="telnet" cpu="1" cpulimit="0" ram="1024" ethernet="1" uuid="728ecfc2-73b0-4385-9913-6d9845bce1df" shutdown="1" firstmac="50:00:00:05:00:00" qemu_options="-machine type=pc,accel=kvm -nographic -usbdevice tablet -boot order=cd -cpu host -serial mon:stdio" qemu_version="2.12.0" qemu_arch="x86_64" qemu_nic="virtio-net-pci" delay="0" sat="0" icon="Server.png" config="0" left="684" top="66">
+        <interface id="0" name="e0" type="ethernet" network_id="6" vid="1" labelpos="0.5" curviness="10" beziercurviness="150" midpoint="0.5" srcpos="0.15" dstpos="0.85"/>
+      </node>
+      <node id="6" name="S3" type="qemu" template="linux-cloud" image="linux-cloud-debian12" console="telnet" cpu="1" cpulimit="0" ram="1024" ethernet="1" uuid="f595d96b-6d80-4ea0-a6c5-817358890776" shutdown="1" firstmac="50:00:00:06:00:00" qemu_options="-machine type=pc,accel=kvm -nographic -usbdevice tablet -boot order=cd -cpu host -serial mon:stdio" qemu_version="2.12.0" qemu_arch="x86_64" qemu_nic="virtio-net-pci" delay="0" sat="0" icon="Server.png" config="0" left="315" top="66">
+        <interface id="0" name="e0" type="ethernet" network_id="7" vid="1" labelpos="0.5" curviness="10" beziercurviness="150" midpoint="0.5" srcpos="0.15" dstpos="0.85"/>
+      </node>
+      <node id="7" name="FW1" type="qemu" template="vyos" image="vyos-1.5-rolling-202310200118" console="telnet" cpu="1" cpulimit="0" ram="1024" ethernet="4" uuid="e1caa261-a2ac-4a09-9b41-3ba218b34e20" firstmac="78:05:96:00:00:00" qemu_options="-machine type=pc,accel=kvm -serial mon:stdio -nographic -no-user-config -nodefaults -rtc base=utc" qemu_version="2.12.0" qemu_arch="x86_64" qemu_nic="e1000" delay="0" sat="0" icon="Router.png" config="0" left="435" top="630">
+        <interface id="0" name="eth0" type="ethernet" network_id="8" vid="1" color="#3e7089" style="Solid" linkstyle="Straight" labelpos="0.5" stub="0" curviness="10" beziercurviness="150" round="0" midpoint="0.5" srcpos="0.34" dstpos="0.5"/>
+        <interface id="1" name="eth1" type="ethernet" network_id="9" vid="1" labelpos="0.5" curviness="10" beziercurviness="150" midpoint="0.5" srcpos="0.15" dstpos="0.85"/>
+      </node>
+      <node id="8" name="S4" type="qemu" template="linux-cloud" image="linux-cloud-debian12" console="telnet" cpu="1" cpulimit="0" ram="1024" ethernet="1" uuid="b40afaa2-97bd-4ac9-b786-1a200e02d44c" shutdown="1" firstmac="50:00:00:08:00:00" qemu_options="-machine type=pc,accel=kvm -nographic -usbdevice tablet -boot order=cd -cpu host -serial mon:stdio" qemu_version="2.12.0" qemu_arch="x86_64" qemu_nic="virtio-net-pci" delay="0" sat="0" icon="Server.png" config="0" left="600" top="66">
+        <interface id="0" name="e0" type="ethernet" network_id="11" vid="1" labelpos="0.5" curviness="10" beziercurviness="150" midpoint="0.5" srcpos="0.15" dstpos="0.85"/>
+      </node>
+    </nodes>
+    <networks>
+      <network id="1" smart="-1" vlan8021ad="-1" type="pnet1" name="LAB-MGMT" left="438" top="330" style="Solid" linkstyle="Straight" color="" label="" visibility="1" icon="Dot_black.png"/>
+      <network id="2" smart="0" vlan8021ad="0" type="bridge" name="Net-SW2iface_1" left="747" top="367" style="Solid" linkstyle="Straight" color="" label="" visibility="0" icon="lan.png"/>
+      <network id="3" smart="0" vlan8021ad="0" type="bridge" name="Net-SW3iface_2" left="594" top="661" style="Solid" linkstyle="Straight" color="" label="" visibility="0" icon="lan.png"/>
+      <network id="4" smart="0" vlan8021ad="0" type="bridge" name="Net-SW3iface_1" left="594" top="661" style="Solid" linkstyle="Straight" color="" label="" visibility="0" icon="lan.png"/>
+      <network id="8" smart="-1" vlan8021ad="-1" type="pnet2" name="LAB-NET" left="438" top="726" style="Solid" linkstyle="Straight" color="" label="" visibility="1" icon="Dot_blue.png"/>
+      <network id="5" smart="0" vlan8021ad="0" type="bridge" name="Net-S1iface_0" left="388" top="228" style="Solid" linkstyle="Straight" color="" label="" visibility="0" icon="lan.png"/>
+      <network id="6" smart="0" vlan8021ad="0" type="bridge" name="Net-S2iface_0" left="906" top="229" style="Solid" linkstyle="Straight" color="" label="" visibility="0" icon="lan.png"/>
+      <network id="7" smart="0" vlan8021ad="0" type="bridge" name="Net-S3iface_0" left="486" top="202" style="Solid" linkstyle="Straight" color="" label="" visibility="0" icon="lan.png"/>
+      <network id="11" smart="0" vlan8021ad="0" type="bridge" name="Net-S4iface_0" left="809" top="235" style="Solid" linkstyle="Straight" color="" label="" visibility="0" icon="lan.png"/>
+      <network id="9" smart="0" vlan8021ad="0" type="bridge" name="Net-FW1iface_1" left="603" top="748" style="Solid" linkstyle="Straight" color="" label="" visibility="0" icon="lan.png"/>
+    </networks>
+  </topology>
+  <objects>
+    <textobjects>
+      <textobject id="1" name="txt 1" type="text">
+        <data>PGRpdiBpZD0iY3VzdG9tVGV4dDEiIGNsYXNzPSJjdXN0b21TaGFwZSBjdXN0b21UZXh0IGNvbnRleHQtbWVudSBqdGstbWFuYWdlZCBqdGstZHJhZ2dhYmxlIGVkaXRhYmxlIGRyYWdzdG9wcGVkIHVpLXNlbGVjdGVlIiBkYXRhLXBhdGg9IjEiIHN0eWxlPSJwb3NpdGlvbjogYWJzb2x1dGU7IGxlZnQ6IDQyNnB4OyB0b3A6IDE0N3B4OyB6LWluZGV4OiAxMDAxOyBjdXJzb3I6IG1vdmU7IGhlaWdodDogYXV0bzsgd2lkdGg6IGF1dG87IiBjb250ZW50ZWRpdGFibGU9InRydWUiPjxwPjxzdHJvbmc+RXRoZXJuZXQ2IC0gVkxBTjEwPC9zdHJvbmc+PC9wPgoKPHA+PHN0cm9uZz5FdGhlcm5ldDcgLSBWTEFOMjA8L3N0cm9uZz48L3A+Cgo8cD48c3Ryb25nPkV0aGVybmV0OCAtIFZMQU4zMDwvc3Ryb25nPjwvcD4KPC9kaXY+</data>
+      </textobject>
+      <textobject id="2" name="txt 2" type="text">
+        <data>PGRpdiBpZD0iY3VzdG9tVGV4dDIiIGNsYXNzPSJjdXN0b21TaGFwZSBjdXN0b21UZXh0IGNvbnRleHQtbWVudSBqdGstbWFuYWdlZCBqdGstZHJhZ2dhYmxlIGVkaXRhYmxlIHVpLXNlbGVjdGVlIHVpLXNlbGVjdGVkIGp0ay1kcmFnLXNlbGVjdGVkIGZyZWUtc2VsZWN0ZWQgZHJhZ3N0b3BwZWQiIGRhdGEtcGF0aD0iMiIgc3R5bGU9InBvc2l0aW9uOiBhYnNvbHV0ZTsgbGVmdDogNjY2cHg7IHRvcDogMjQzcHg7IHotaW5kZXg6IDEwMDE7IGN1cnNvcjogbW92ZTsgaGVpZ2h0OiBhdXRvOyB3aWR0aDogYXV0bzsiIGNvbnRlbnRlZGl0YWJsZT0idHJ1ZSI+PHA+PHN0cm9uZz5sbzAgLSAxOTIuMC4yLjIvMzI8L3N0cm9uZz48L3A+CjwvZGl2Pg==</data>
+      </textobject>
+      <textobject id="3" name="txt 3" type="text">
+        <data>PGRpdiBpZD0iY3VzdG9tVGV4dDMiIGNsYXNzPSJjdXN0b21TaGFwZSBjdXN0b21UZXh0IGNvbnRleHQtbWVudSBqdGstbWFuYWdlZCBqdGstZHJhZ2dhYmxlIGVkaXRhYmxlIHVpLXNlbGVjdGVlIGRyYWdzdG9wcGVkIGNrZV9mb2N1cyIgZGF0YS1wYXRoPSIzIiBzdHlsZT0icG9zaXRpb246IGFic29sdXRlOyBsZWZ0OiAxNzRweDsgdG9wOiAyMzdweDsgei1pbmRleDogMTAwMTsgY3Vyc29yOiBhdXRvOyBoZWlnaHQ6IGF1dG87IHdpZHRoOiBhdXRvOyIgY29udGVudGVkaXRhYmxlPSJ0cnVlIj48cD48c3Ryb25nPmxvMCAtIDE5Mi4wLjIuMS8zMjwvc3Ryb25nPjwvcD4KPC9kaXY+</data>
+      </textobject>
+      <textobject id="4" name="txt 4" type="text">
+        <data>PGRpdiBpZD0iY3VzdG9tVGV4dDQiIGNsYXNzPSJjdXN0b21TaGFwZSBjdXN0b21UZXh0IGNvbnRleHQtbWVudSBqdGstbWFuYWdlZCBqdGstZHJhZ2dhYmxlIGVkaXRhYmxlIHVpLXNlbGVjdGVlIGRyYWdzdG9wcGVkIGNrZV9mb2N1cyIgZGF0YS1wYXRoPSI0IiBzdHlsZT0icG9zaXRpb246IGFic29sdXRlOyBsZWZ0OiA1MDRweDsgdG9wOiA1MTNweDsgei1pbmRleDogMTAwMTsgY3Vyc29yOiBhdXRvOyBoZWlnaHQ6IGF1dG87IHdpZHRoOiBhdXRvOyIgY29udGVudGVkaXRhYmxlPSJ0cnVlIj48cD48c3Ryb25nPmxvMCAtIDE5Mi4wLjIuMy8zMjwvc3Ryb25nPjwvcD4KPC9kaXY+</data>
+      </textobject>
+      <textobject id="5" name="txt 5" type="text">
+        <data>PGRpdiBpZD0iY3VzdG9tVGV4dDUiIGNsYXNzPSJjdXN0b21TaGFwZSBjdXN0b21UZXh0IGNvbnRleHQtbWVudSBqdGstbWFuYWdlZCBqdGstZHJhZ2dhYmxlIGVkaXRhYmxlIHVpLXNlbGVjdGVlIHVpLXNlbGVjdGVkIGp0ay1kcmFnLXNlbGVjdGVkIGZyZWUtc2VsZWN0ZWQgZHJhZ3N0b3BwZWQiIGRhdGEtcGF0aD0iNSIgc3R5bGU9InBvc2l0aW9uOiBhYnNvbHV0ZTsgbGVmdDogNDg5cHg7IHRvcDogNTU1cHg7IHotaW5kZXg6IDEwMDE7IGN1cnNvcjogbW92ZTsgaGVpZ2h0OiBhdXRvOyB3aWR0aDogYXV0bzsiIGNvbnRlbnRlZGl0YWJsZT0idHJ1ZSI+PHA+PHN0cm9uZz5FdGhlcm5ldDQgLSBUcnVuazwvc3Ryb25nPjwvcD4KPC9kaXY+</data>
+      </textobject>
+      <textobject id="6" name="txt 6" type="text">
+        <data>PGRpdiBpZD0iY3VzdG9tVGV4dDYiIGNsYXNzPSJjdXN0b21TaGFwZSBjdXN0b21UZXh0IGNvbnRleHQtbWVudSBqdGstbWFuYWdlZCBqdGstZHJhZ2dhYmxlIGVkaXRhYmxlIGRyYWdzdG9wcGVkIHVpLXNlbGVjdGVlIHVpLXNlbGVjdGVkIGp0ay1kcmFnLXNlbGVjdGVkIGZyZWUtc2VsZWN0ZWQiIGRhdGEtcGF0aD0iNiIgc3R5bGU9InBvc2l0aW9uOiBhYnNvbHV0ZTsgbGVmdDogNDk1cHg7IHRvcDogNjE4cHg7IHotaW5kZXg6IDEwMDE7IGN1cnNvcjogbW92ZTsgaGVpZ2h0OiBhdXRvOyB3aWR0aDogYXV0bzsiIGNvbnRlbnRlZGl0YWJsZT0idHJ1ZSI+PHA+PGI+ZXRoMS4xMCAtIDE3Mi4xNi4xMC4xLzI0PC9iPjwvcD4KCjxwPjxiPmV0aDEuMjAgLSAxNzIuMTYuMjAuMS8yNDwvYj48L3A+Cgo8cD48Yj5ldGgxLjMwIC0gMTcyLjE2LjMwLjEvMjQ8L2I+PC9wPgo8L2Rpdj4=</data>
+      </textobject>
+      <textobject id="7" name="txt 7" type="text">
+        <data>PGRpdiBpZD0iY3VzdG9tVGV4dDciIGNsYXNzPSJjdXN0b21TaGFwZSBjdXN0b21UZXh0IGNvbnRleHQtbWVudSBqdGstbWFuYWdlZCBqdGstZHJhZ2dhYmxlIGVkaXRhYmxlIHVpLXNlbGVjdGVlIGRyYWdzdG9wcGVkIHVpLXNlbGVjdGVkIGp0ay1kcmFnLXNlbGVjdGVkIGZyZWUtc2VsZWN0ZWQiIGRhdGEtcGF0aD0iNyIgc3R5bGU9InBvc2l0aW9uOiBhYnNvbHV0ZTsgbGVmdDogMzQ1cHg7IHRvcDogNjM5cHg7IHotaW5kZXg6IDEwMDE7IGN1cnNvcjogbW92ZTsgaGVpZ2h0OiBhdXRvOyB3aWR0aDogYXV0bzsiIGNvbnRlbnRlZGl0YWJsZT0idHJ1ZSI+PHA+PHN0cm9uZz5ldGgwIC0gREhDUDwvc3Ryb25nPjwvcD4KPC9kaXY+</data>
+      </textobject>
+    </textobjects>
+  </objects>
+</lab>
