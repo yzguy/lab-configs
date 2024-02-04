@@ -1,0 +1,239 @@
+interfaces {
+    ethernet eth0 {
+        address dhcp
+        description LAB-NET1
+        hw-id 50:00:00:09:00:00
+    }
+    ethernet eth1 {
+        description spine1
+        hw-id 50:00:00:09:00:01
+    }
+    ethernet eth2 {
+        description spine2
+        hw-id 50:00:00:09:00:02
+    }
+    ethernet eth3 {
+        description spine3
+        hw-id 50:00:00:09:00:03
+    }
+    ethernet eth4 {
+        hw-id 50:00:00:09:00:04
+    }
+    ethernet eth5 {
+        address 192.168.224.50/24
+        description LAB-MGMT
+        hw-id 50:00:00:09:00:05
+        vrf MGMT
+    }
+    loopback lo {
+        address 172.99.0.0/32
+        address fd98:f21:c89a::/128
+    }
+}
+nat {
+    source {
+        rule 10 {
+            outbound-interface eth0
+            source {
+                address 0.0.0.0/0
+            }
+            translation {
+                address masquerade
+            }
+        }
+    }
+}
+protocols {
+    bgp {
+        address-family {
+            ipv4-unicast {
+                network 172.99.0.0/32 {
+                }
+                redistribute {
+                    static {
+                    }
+                }
+            }
+            ipv6-unicast {
+                network fd98:f21:c89a::/128 {
+                }
+            }
+        }
+        neighbor eth1 {
+            interface {
+                peer-group UNDERLAY
+            }
+        }
+        neighbor eth2 {
+            interface {
+                peer-group UNDERLAY
+            }
+        }
+        neighbor eth3 {
+            interface {
+                peer-group UNDERLAY
+            }
+        }
+        parameters {
+            graceful-restart {
+            }
+            router-id 172.99.0.0
+        }
+        peer-group UNDERLAY {
+            address-family {
+                ipv4-unicast {
+                }
+                ipv6-unicast {
+                }
+            }
+            remote-as 65000
+        }
+        system-as 199344
+    }
+    static {
+        route 0.0.0.0/0 {
+            next-hop 192.168.225.1 {
+            }
+        }
+    }
+}
+service {
+    lldp {
+        interface all {
+        }
+    }
+    ntp {
+        server time1.vyos.net {
+        }
+        server time2.vyos.net {
+        }
+        server time3.vyos.net {
+        }
+    }
+    ssh {
+        vrf MGMT
+    }
+}
+system {
+    config-management {
+        commit-revisions 100
+    }
+    conntrack {
+        modules {
+            ftp
+            h323
+            nfs
+            pptp
+            sip
+            sqlnet
+            tftp
+        }
+    }
+    console {
+        device ttyS0 {
+            speed 115200
+        }
+    }
+    host-name border1
+    login {
+        banner {
+            post-login ""
+        }
+        user vyos {
+            authentication {
+                encrypted-password ****************
+                plaintext-password ****************
+            }
+        }
+        user yzguy {
+            authentication {
+                encrypted-password ****************
+                public-keys yzguy {
+                    key ****************
+                    type ssh-ed25519
+                }
+            }
+        }
+    }
+    syslog {
+        global {
+            facility all {
+                level info
+            }
+            facility local7 {
+                level debug
+            }
+        }
+    }
+}
+vrf {
+    name MGMT {
+        protocols {
+            static {
+                route 0.0.0.0/0 {
+                    next-hop 192.168.224.1 {
+                    }
+                }
+            }
+        }
+        table 400
+    }
+}
+
+set interfaces ethernet eth0 address 'dhcp'
+set interfaces ethernet eth0 description 'LAB-NET1'
+set interfaces ethernet eth0 hw-id '50:00:00:09:00:00'
+set interfaces ethernet eth1 description 'spine1'
+set interfaces ethernet eth1 hw-id '50:00:00:09:00:01'
+set interfaces ethernet eth2 description 'spine2'
+set interfaces ethernet eth2 hw-id '50:00:00:09:00:02'
+set interfaces ethernet eth3 description 'spine3'
+set interfaces ethernet eth3 hw-id '50:00:00:09:00:03'
+set interfaces ethernet eth4 hw-id '50:00:00:09:00:04'
+set interfaces ethernet eth5 address '192.168.224.50/24'
+set interfaces ethernet eth5 description 'LAB-MGMT'
+set interfaces ethernet eth5 hw-id '50:00:00:09:00:05'
+set interfaces ethernet eth5 vrf 'MGMT'
+set interfaces loopback lo address '172.99.0.0/32'
+set interfaces loopback lo address 'fd98:f21:c89a::/128'
+set nat source rule 10 outbound-interface 'eth0'
+set nat source rule 10 source address '0.0.0.0/0'
+set nat source rule 10 translation address 'masquerade'
+set protocols bgp address-family ipv4-unicast network 172.99.0.0/32
+set protocols bgp address-family ipv4-unicast redistribute static
+set protocols bgp address-family ipv6-unicast network fd98:f21:c89a::/128
+set protocols bgp neighbor eth1 interface peer-group 'UNDERLAY'
+set protocols bgp neighbor eth2 interface peer-group 'UNDERLAY'
+set protocols bgp neighbor eth3 interface peer-group 'UNDERLAY'
+set protocols bgp parameters graceful-restart
+set protocols bgp parameters router-id '172.99.0.0'
+set protocols bgp peer-group UNDERLAY address-family ipv4-unicast
+set protocols bgp peer-group UNDERLAY address-family ipv6-unicast
+set protocols bgp peer-group UNDERLAY remote-as '65000'
+set protocols bgp system-as '199344'
+set protocols static route 0.0.0.0/0 next-hop 192.168.225.1
+set service lldp interface all
+set service ntp server time1.vyos.net
+set service ntp server time2.vyos.net
+set service ntp server time3.vyos.net
+set service ssh vrf 'MGMT'
+set system config-management commit-revisions '100'
+set system conntrack modules ftp
+set system conntrack modules h323
+set system conntrack modules nfs
+set system conntrack modules pptp
+set system conntrack modules sip
+set system conntrack modules sqlnet
+set system conntrack modules tftp
+set system console device ttyS0 speed '115200'
+set system host-name 'border1'
+set system login banner post-login ''
+set system login user vyos authentication encrypted-password '$6$UpVtihapsibpzTe9$eDYsvlCmMXiYfVehwdMhQqUtaoCjOlAiznzuqVDqwl3PAg7ODfS4fsrR4sUz6hLZ65aPf2oK9yTwVgdwQ70'
+set system login user vyos authentication plaintext-password ''
+set system login user yzguy authentication encrypted-password '$6$rounds=656000$3PQfFPqATz1zddLH$Q70qX2.grOuBe9yXa.ZXWc2H/zED0YRydsfvBUTdWvGjH29WVWFkOWgcyoB.k1x9qGerIykjYNfWDaFP6j0'
+set system login user yzguy authentication public-keys yzguy key 'AAAAC3NzaC1lZDI1NTE5AAAAIJENTfxvqB3LQLu97T5QtfpKJjDr4Wu+GoQ3EUff2pr6'
+set system login user yzguy authentication public-keys yzguy type 'ssh-ed25519'
+set system syslog global facility all level 'info'
+set system syslog global facility local7 level 'debug'
+set vrf name MGMT protocols static route 0.0.0.0/0 next-hop 192.168.224.1
+set vrf name MGMT table '400'

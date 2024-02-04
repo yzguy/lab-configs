@@ -1,0 +1,91 @@
+spine1#show run
+! Command: show running-config
+! device: spine1 (vEOS, EOS-4.25.1F)
+!
+! boot system flash:/vEOS-lab.swi
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model multi-agent
+!
+hostname spine1
+!
+spanning-tree mode mstp
+!
+aaa authorization exec default local
+!
+no aaa root
+no username admin
+!
+username yzguy privilege 15 role network-admin secret sha512 $6$.rUEmE6R9LmbkPIj$q6HX3.1WXZYqNVBaIJdWvJp3fhrcEjK0NlWoYswtqKHcGCI9mQIhm5ZB4Qn3Py6qMkCLsymsurb1bh6Ru.
+username yzguy ssh-key ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJENTfxvqB3LQLu97T5QtfpKJjDr4Wu+GoQ3EUff2pr6
+!
+vrf instance MGMT
+!
+interface Ethernet1
+   no switchport
+   ip address unnumbered Loopback0
+   ipv6 enable
+!
+interface Ethernet2
+   no switchport
+   ip address unnumbered Loopback0
+   ipv6 enable
+!
+interface Ethernet3
+   no switchport
+   ip address unnumbered Loopback0
+   ipv6 enable
+!
+interface Ethernet4
+!
+interface Ethernet5
+!
+interface Ethernet6
+!
+interface Ethernet7
+!
+interface Ethernet8
+   no switchport
+   ip address unnumbered Loopback0
+   ipv6 enable
+!
+interface Loopback0
+   ip address 172.99.0.1/32
+   ipv6 address fd98:f21:c89a::1/128
+!
+interface Management1
+   vrf MGMT
+   ip address 192.168.224.51/24
+!
+ip routing
+no ip routing vrf MGMT
+!
+ipv6 unicast-routing
+!
+ip route vrf MGMT 0.0.0.0/0 192.168.224.1
+!
+peer-filter UNDERLAY
+   10 match as-range 65000-65100 result accept
+   20 match as-range 199344 result accept
+!
+router bgp 65000
+   router-id 172.99.0.1
+   graceful-restart restart-time 300
+   graceful-restart
+   maximum-paths 8 ecmp 64
+   neighbor UNDERLAY peer group
+   neighbor UNDERLAY send-community extended
+   neighbor UNDERLAY maximum-routes 12000
+   neighbor interface Et1-3,8 peer-group UNDERLAY peer-filter UNDERLAY
+   !
+   address-family ipv4
+      neighbor UNDERLAY activate
+      neighbor UNDERLAY next-hop address-family ipv6 originate
+      network 172.99.0.1/32
+   !
+   address-family ipv6
+      neighbor UNDERLAY activate
+      network fd98:f21:c89a::1/128
+!
+end
