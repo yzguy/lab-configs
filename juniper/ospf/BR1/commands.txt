@@ -1,0 +1,71 @@
+vyos@BR1:~$ show ip route
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+       O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric,
+       > - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+S>* 0.0.0.0/0 [210/0] via 192.168.225.1, eth0, weight 1, 00:30:14
+B>* 10.0.0.1/32 [20/20] via 172.254.0.7, eth1, weight 1, 00:06:37
+B>* 10.0.0.2/32 [20/10] via 172.254.0.7, eth1, weight 1, 00:06:37
+B>* 10.0.12.0/24 [20/20] via 172.254.0.7, eth1, weight 1, 00:06:37
+B>* 10.0.13.0/24 [20/30] via 172.254.0.7, eth1, weight 1, 00:06:37
+B>* 10.0.23.0/24 [20/20] via 172.254.0.7, eth1, weight 1, 00:06:37
+B>* 10.1.14.0/24 [20/30] via 172.254.0.7, eth1, weight 1, 00:06:37
+B>* 10.5.0.9/32 [20/20] via 172.254.0.7, eth1, weight 1, 00:06:37
+B>* 10.5.28.0/24 [20/20] via 172.254.0.7, eth1, weight 1, 00:06:37
+B>* 10.5.29.0/24 [20/20] via 172.254.0.7, eth1, weight 1, 00:06:37
+B>* 10.5.89.0/24 [20/30] via 172.254.0.7, eth1, weight 1, 00:06:37
+C>* 172.254.0.0/24 is directly connected, eth1, 00:30:17
+C>* 172.255.0.1/32 is directly connected, lo, 00:30:17
+C>* 192.168.225.0/24 is directly connected, eth0, 00:30:14
+vyos@BR1:~$ show ipv6 route
+Codes: K - kernel route, C - connected, S - static, R - RIPng,
+       O - OSPFv3, I - IS-IS, B - BGP, N - NHRP, T - Table,
+       v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric,
+       > - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+K>* ::/0 [0/1024] via fe80::290:bff:feaa:2297, eth0, 00:30:16
+C>* 2601:985:4a02:be35::/64 is directly connected, eth0, 00:30:15
+B>* fd00::1/128 [20/20] via fe80::5200:ff:fe08:2, eth1, weight 1, 00:06:38
+B>* fd00::2/128 [20/10] via fe80::5200:ff:fe08:2, eth1, weight 1, 00:06:38
+B>* fd00:0:12::/64 [20/20] via fe80::5200:ff:fe08:2, eth1, weight 1, 00:06:38
+B>* fd00:0:13::/64 [20/30] via fe80::5200:ff:fe08:2, eth1, weight 1, 00:06:38
+B>* fd00:0:23::/64 [20/20] via fe80::5200:ff:fe08:2, eth1, weight 1, 00:06:38
+B>* fd00:1:14::/64 [20/30] via fe80::5200:ff:fe08:2, eth1, weight 1, 00:06:38
+B>* fd00:5::9/128 [20/20] via fe80::5200:ff:fe08:2, eth1, weight 1, 00:06:38
+B>* fd00:5:28::/64 [20/20] via fe80::5200:ff:fe08:2, eth1, weight 1, 00:06:38
+B>* fd00:5:29::/64 [20/20] via fe80::5200:ff:fe08:2, eth1, weight 1, 00:06:38
+B>* fd00:5:89::/64 [20/30] via fe80::5200:ff:fe08:2, eth1, weight 1, 00:06:38
+C>* fd00:254::/64 is directly connected, eth1, 00:30:17
+C>* fd00:255::/32 is directly connected, lo, 00:30:18
+C>* fdb2:3c2c:225::/64 is directly connected, eth0, 00:30:15
+C * fe80::/64 is directly connected, eth0, 00:30:16
+C * fe80::/64 is directly connected, eth1, 00:30:17
+C>* fe80::/64 is directly connected, lo, 00:30:18
+vyos@BR1:~$ show bgp summary
+
+IPv4 Unicast Summary (VRF default):
+BGP router identifier 172.255.0.1, local AS number 65254 vrf-id 0
+BGP table version 31
+RIB entries 20, using 3840 bytes of memory
+Peers 1, using 20 KiB of memory
+
+Neighbor        V         AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt Desc
+172.254.0.7     4      65207        28        31       31    0    0 00:06:41           10        1 N/A
+
+Total number of neighbors 1
+
+IPv6 Unicast Summary (VRF default):
+BGP router identifier 172.255.0.1, local AS number 65254 vrf-id 0
+BGP table version 11
+RIB entries 20, using 3840 bytes of memory
+Peers 1, using 20 KiB of memory
+
+Neighbor        V         AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt Desc
+fd00:254::7     4      65207        20        21       11    0    0 00:06:42           10        1 N/A
+
+Total number of neighbors 1

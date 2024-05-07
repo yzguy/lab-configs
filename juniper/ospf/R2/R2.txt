@@ -1,0 +1,48 @@
+set version 23.2R1.15
+set system host-name R2
+set system root-authentication encrypted-password "$6$U1bzXNbu$JP6vTX1.RELHDDWLgFGFpREoBfBX99UUQntU9VtUznLdMrCoOPBkCGGDVeBWpx0rT2B/VFKZfvG/9kJNb3bOc0"
+set system syslog file interactive-commands interactive-commands any
+set system syslog file messages any notice
+set system syslog file messages authorization info
+set interfaces ge-0/0/0 description "R3 - ge-0/0/0"
+set interfaces ge-0/0/0 unit 0 family inet address 10.0.23.2/24
+set interfaces ge-0/0/0 unit 0 family inet6 address fd00:0:23::2/64
+set interfaces ge-0/0/1 description "R7 - ge-0/0/0"
+set interfaces ge-0/0/1 unit 0 family inet address 10.2.27.2/24
+set interfaces ge-0/0/1 unit 0 family inet6 address fd00:2:27::2/64
+set interfaces ge-0/0/2 description "R1 - ge-0/0/0"
+set interfaces ge-0/0/2 unit 0 family inet address 10.0.12.2/24
+set interfaces ge-0/0/2 unit 0 family inet6 address fd00:0:12::2/64
+set interfaces ge-0/0/3 description "R8 - ge-0/0/0"
+set interfaces ge-0/0/3 unit 0 family inet address 10.5.28.2/24
+set interfaces ge-0/0/3 unit 0 family inet6 address fd00:5:28::2/64
+set interfaces ge-0/0/4 description "R9 - ge-0/0/0"
+set interfaces ge-0/0/4 unit 0 family inet address 10.5.29.2/24
+set interfaces ge-0/0/4 unit 0 family inet6 address fd00:5:29::2/64
+set interfaces fxp0 unit 0
+set interfaces lo0 unit 0 family inet address 10.0.0.2/32
+set interfaces lo0 unit 0 family inet6 address fd00::2/128
+set policy-options policy-statement DEFAULT-ORIGINATE term 1 from route-filter 0.0.0.0/0 exact accept
+set policy-options policy-statement DEFAULT-ORIGINATE term 2 from route-filter ::/0 exact accept
+set routing-options router-id 10.0.0.2
+set protocols router-advertisement interface ge-0/0/3.0
+set protocols router-advertisement interface ge-0/0/4.0
+set protocols ospf area 0.0.0.0 interface ge-0/0/0.0 interface-type p2p
+set protocols ospf area 0.0.0.0 interface lo0.0 passive
+set protocols ospf area 0.0.0.0 interface ge-0/0/2.0 interface-type p2p
+set protocols ospf area 0.0.0.2 nssa
+set protocols ospf area 0.0.0.2 interface ge-0/0/1.0 interface-type p2p
+set protocols ospf area 0.0.0.5 interface ge-0/0/3.0 interface-type p2p
+set protocols ospf area 0.0.0.5 interface ge-0/0/4.0 interface-type p2p
+set protocols ospf export DEFAULT-ORIGINATE
+set protocols ospf reference-bandwidth 10g
+set protocols ospf3 area 0.0.0.0 interface ge-0/0/0.0 interface-type p2p
+set protocols ospf3 area 0.0.0.0 interface lo0.0 passive
+set protocols ospf3 area 0.0.0.0 interface ge-0/0/2.0 interface-type p2p
+set protocols ospf3 area 0.0.0.2 nssa
+set protocols ospf3 area 0.0.0.2 interface ge-0/0/1.0 interface-type p2p
+set protocols ospf3 area 0.0.0.5 interface ge-0/0/3.0 interface-type p2p
+set protocols ospf3 area 0.0.0.5 interface ge-0/0/4.0 interface-type p2p
+set protocols ospf3 export DEFAULT-ORIGINATE
+set protocols ospf3 reference-bandwidth 10g
+set protocols lldp interface all

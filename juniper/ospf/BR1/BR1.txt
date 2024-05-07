@@ -1,0 +1,146 @@
+interfaces {
+    ethernet eth0 {
+        address dhcp
+        hw-id 50:00:00:05:00:00
+        ipv6 {
+            address {
+                autoconf
+            }
+        }
+    }
+    ethernet eth1 {
+        address 172.254.0.1/24
+        address fd00:254::1/64
+        hw-id 50:00:00:05:00:01
+    }
+    ethernet eth2 {
+        hw-id 50:00:00:05:00:02
+    }
+    ethernet eth3 {
+        hw-id 50:00:00:05:00:03
+    }
+    loopback lo {
+        address fd00:255::1/32
+        address 172.255.0.1/32
+    }
+}
+nat {
+    source {
+        rule 10 {
+            outbound-interface {
+                name eth0
+            }
+            source {
+                address 0.0.0.0/0
+            }
+            translation {
+                address masquerade
+            }
+        }
+    }
+}
+nat66 {
+    source {
+        rule 10 {
+            outbound-interface {
+                name eth0
+            }
+            source {
+                prefix ::/0
+            }
+            translation {
+                address masquerade
+            }
+        }
+    }
+}
+protocols {
+    bgp {
+        address-family {
+            ipv4-unicast {
+                redistribute {
+                    static {
+                    }
+                }
+            }
+            ipv6-unicast {
+                redistribute {
+                    kernel {
+                    }
+                }
+            }
+        }
+        neighbor 172.254.0.7 {
+            address-family {
+                ipv4-unicast {
+                }
+            }
+            remote-as 65207
+        }
+        neighbor fd00:254::7 {
+            address-family {
+                ipv6-unicast {
+                }
+            }
+            remote-as 65207
+        }
+        parameters {
+            router-id 172.255.0.1
+        }
+        system-as 65254
+    }
+}
+service {
+    lldp {
+        interface all {
+        }
+    }
+    ntp {
+        server time1.vyos.net {
+        }
+        server time2.vyos.net {
+        }
+        server time3.vyos.net {
+        }
+    }
+}
+system {
+    config-management {
+        commit-revisions 100
+    }
+    conntrack {
+        modules {
+            ftp
+            h323
+            nfs
+            pptp
+            sip
+            sqlnet
+            tftp
+        }
+    }
+    console {
+        device ttyS0 {
+            speed 115200
+        }
+    }
+    host-name BR1
+    login {
+        user vyos {
+            authentication {
+                encrypted-password ****************
+                plaintext-password ****************
+            }
+        }
+    }
+    syslog {
+        global {
+            facility all {
+                level info
+            }
+            facility local7 {
+                level debug
+            }
+        }
+    }
+}
