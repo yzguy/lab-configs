@@ -1,0 +1,35 @@
+set version 23.2R1.15
+set system host-name R7
+set system root-authentication encrypted-password "$6$U1bzXNbu$JP6vTX1.RELHDDWLgFGFpREoBfBX99UUQntU9VtUznLdMrCoOPBkCGGDVeBWpx0rT2B/VFKZfvG/9kJNb3bOc0"
+set system syslog file interactive-commands interactive-commands any
+set system syslog file messages any notice
+set system syslog file messages authorization info
+set interfaces ge-0/0/0 description "R2 - ge-0/0/2"
+set interfaces ge-0/0/0 unit 0 family inet address 10.2.27.7/24
+set interfaces ge-0/0/0 unit 0 family inet6 address fd00:2:27::7/64
+set interfaces ge-0/0/1 description "BR1 - eth1"
+set interfaces ge-0/0/1 unit 0 family inet address 172.254.0.7/24
+set interfaces ge-0/0/1 unit 0 family inet6 address fd00:254::7/64
+set interfaces fxp0 unit 0
+set interfaces lo0 unit 0 family inet address 10.2.0.7/32
+set interfaces lo0 unit 0 family inet6 address fd00:2::7/128
+set policy-options policy-statement REDISTRIBUTE-BGP term BGP from protocol bgp
+set policy-options policy-statement REDISTRIBUTE-BGP term BGP then accept
+set policy-options policy-statement REDISTRIBUTE-OSPF term OSPF from protocol ospf
+set policy-options policy-statement REDISTRIBUTE-OSPF term OSPF then accept
+set routing-options router-id 10.2.0.7
+set routing-options autonomous-system 65207
+set protocols bgp group EDGE neighbor 172.254.0.1 peer-as 65254
+set protocols bgp group EDGE neighbor fd00:254::1 peer-as 65254
+set protocols bgp export REDISTRIBUTE-OSPF
+set protocols ospf area 0.0.0.2 nssa
+set protocols ospf area 0.0.0.2 interface ge-0/0/0.0 interface-type p2p
+set protocols ospf area 0.0.0.2 interface lo0.0 passive
+set protocols ospf export REDISTRIBUTE-BGP
+set protocols ospf reference-bandwidth 10g
+set protocols ospf3 area 0.0.0.2 nssa
+set protocols ospf3 area 0.0.0.2 interface ge-0/0/0.0 interface-type p2p
+set protocols ospf3 area 0.0.0.2 interface lo0.0 passive
+set protocols ospf3 export REDISTRIBUTE-BGP
+set protocols ospf3 reference-bandwidth 10g
+set protocols lldp interface all

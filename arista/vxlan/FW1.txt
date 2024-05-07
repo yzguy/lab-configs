@@ -1,0 +1,177 @@
+interfaces {
+    ethernet eth0 {
+        address dhcp
+        hw-id 78:05:96:00:00:00
+    }
+    ethernet eth1 {
+        hw-id 78:05:96:00:00:01
+        vif 10 {
+            address 172.16.10.1/24
+        }
+        vif 20 {
+            address 172.16.20.1/24
+        }
+        vif 30 {
+            address 172.16.30.1/24
+        }
+    }
+    ethernet eth2 {
+        hw-id 78:05:96:00:00:02
+    }
+    ethernet eth3 {
+        hw-id 78:05:96:00:00:03
+    }
+    loopback lo {
+    }
+}
+nat {
+    source {
+        rule 10 {
+            outbound-interface eth0
+            source {
+                address 0.0.0.0/0
+            }
+            translation {
+                address masquerade
+            }
+        }
+    }
+}
+service {
+    dhcp-server {
+        shared-network-name VLAN10 {
+            authoritative
+            name-server 192.168.0.53
+            subnet 172.16.10.0/24 {
+                default-router 172.16.10.1
+                range LAN {
+                    start 172.16.10.10
+                    stop 172.16.10.30
+                }
+            }
+        }
+        shared-network-name VLAN20 {
+            authoritative
+            name-server 192.168.0.53
+            subnet 172.16.20.0/24 {
+                default-router 172.16.20.1
+                range LAN {
+                    start 172.16.20.10
+                    stop 172.16.20.30
+                }
+            }
+        }
+        shared-network-name VLAN30 {
+            authoritative
+            name-server 192.168.0.53
+            subnet 172.16.30.0/24 {
+                default-router 172.16.30.1
+                range LAN {
+                    start 172.16.30.10
+                    stop 172.16.30.30
+                }
+            }
+        }
+    }
+    lldp {
+        interface all {
+        }
+    }
+    ntp {
+        server time1.vyos.net {
+        }
+        server time2.vyos.net {
+        }
+        server time3.vyos.net {
+        }
+    }
+    ssh {
+    }
+}
+system {
+    config-management {
+        commit-revisions 100
+    }
+    conntrack {
+        modules {
+            ftp
+            h323
+            nfs
+            pptp
+            sip
+            sqlnet
+            tftp
+        }
+    }
+    console {
+        device ttyS0 {
+            speed 115200
+        }
+    }
+    host-name FW1
+    login {
+        user vyos {
+            authentication {
+                encrypted-password ****************
+                plaintext-password ****************
+            }
+        }
+    }
+    syslog {
+        global {
+            facility all {
+                level info
+            }
+            facility local7 {
+                level debug
+            }
+        }
+    }
+}
+
+set interfaces ethernet eth0 address 'dhcp'
+set interfaces ethernet eth0 hw-id '78:05:96:00:00:00'
+set interfaces ethernet eth1 hw-id '78:05:96:00:00:01'
+set interfaces ethernet eth1 vif 10 address '172.16.10.1/24'
+set interfaces ethernet eth1 vif 20 address '172.16.20.1/24'
+set interfaces ethernet eth1 vif 30 address '172.16.30.1/24'
+set interfaces ethernet eth2 hw-id '78:05:96:00:00:02'
+set interfaces ethernet eth3 hw-id '78:05:96:00:00:03'
+set interfaces loopback lo
+set nat source rule 10 outbound-interface 'eth0'
+set nat source rule 10 source address '0.0.0.0/0'
+set nat source rule 10 translation address 'masquerade'
+set service dhcp-server shared-network-name VLAN10 authoritative
+set service dhcp-server shared-network-name VLAN10 name-server '192.168.0.53'
+set service dhcp-server shared-network-name VLAN10 subnet 172.16.10.0/24 default-router '172.16.10.1'
+set service dhcp-server shared-network-name VLAN10 subnet 172.16.10.0/24 range LAN start '172.16.10.10'
+set service dhcp-server shared-network-name VLAN10 subnet 172.16.10.0/24 range LAN stop '172.16.10.30'
+set service dhcp-server shared-network-name VLAN20 authoritative
+set service dhcp-server shared-network-name VLAN20 name-server '192.168.0.53'
+set service dhcp-server shared-network-name VLAN20 subnet 172.16.20.0/24 default-router '172.16.20.1'
+set service dhcp-server shared-network-name VLAN20 subnet 172.16.20.0/24 range LAN start '172.16.20.10'
+set service dhcp-server shared-network-name VLAN20 subnet 172.16.20.0/24 range LAN stop '172.16.20.30'
+set service dhcp-server shared-network-name VLAN30 authoritative
+set service dhcp-server shared-network-name VLAN30 name-server '192.168.0.53'
+set service dhcp-server shared-network-name VLAN30 subnet 172.16.30.0/24 default-router '172.16.30.1'
+set service dhcp-server shared-network-name VLAN30 subnet 172.16.30.0/24 range LAN start '172.16.30.10'
+set service dhcp-server shared-network-name VLAN30 subnet 172.16.30.0/24 range LAN stop '172.16.30.30'
+set service lldp interface all
+set service ntp server time1.vyos.net
+set service ntp server time2.vyos.net
+set service ntp server time3.vyos.net
+set service ssh
+set system config-management commit-revisions '100'
+set system conntrack modules ftp
+set system conntrack modules h323
+set system conntrack modules nfs
+set system conntrack modules pptp
+set system conntrack modules sip
+set system conntrack modules sqlnet
+set system conntrack modules tftp
+set system console device ttyS0 speed '115200'
+set system host-name 'FW1'
+set system login user vyos authentication encrypted-password '$6$C5z3T8UW2Dx3KOp.$C3xMXvbpyWLCTRkaK/IAIHXCrFRDhbvT1Buy4SmGbMSPOLrXS4naLZ/avMdLlIv184XSWZGFoxqUwvhI08/Np.'
+set system login user vyos authentication plaintext-password ''
+set system syslog global facility all level 'info'
+set system syslog global facility local7 level 'debug'

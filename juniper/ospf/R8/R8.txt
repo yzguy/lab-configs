@@ -1,0 +1,24 @@
+set version 23.2R1.15
+set system host-name R8
+set system root-authentication encrypted-password "$6$U1bzXNbu$JP6vTX1.RELHDDWLgFGFpREoBfBX99UUQntU9VtUznLdMrCoOPBkCGGDVeBWpx0rT2B/VFKZfvG/9kJNb3bOc0"
+set system syslog file interactive-commands interactive-commands any
+set system syslog file messages any notice
+set system syslog file messages authorization info
+set interfaces ge-0/0/0 description "R2 - ge-0/0/3"
+set interfaces ge-0/0/0 unit 0 family inet unnumbered-address lo0.0
+set interfaces ge-0/0/0 unit 0 family inet6 unnumbered-address lo0.0
+set interfaces ge-0/0/1 description "R9 - ge-0/0/1"
+set interfaces ge-0/0/1 unit 0 family inet unnumbered-address lo0.0
+set interfaces ge-0/0/1 unit 0 family inet6 unnumbered-address lo0.0
+set interfaces fxp0 unit 0
+set interfaces lo0 unit 0 family inet address 10.5.0.8/32
+set interfaces lo0 unit 0 family inet6 address fd00:0:5::8/128
+set protocols ospf area 0.0.0.5 interface ge-0/0/0.0 interface-type p2p
+set protocols ospf area 0.0.0.5 interface ge-0/0/1.0 interface-type p2p
+set protocols ospf area 0.0.0.5 interface lo0.0 passive
+set protocols ospf reference-bandwidth 10g
+set protocols ospf3 area 0.0.0.5 interface ge-0/0/1.0 interface-type p2p
+set protocols ospf3 area 0.0.0.5 interface ge-0/0/0.0 interface-type p2p
+set protocols ospf3 area 0.0.0.5 interface lo0.0 passive
+set protocols ospf3 reference-bandwidth 10g
+set protocols lldp interface all

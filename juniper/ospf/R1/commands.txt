@@ -1,0 +1,135 @@
+root@R1> show route
+
+inet.0: 17 destinations, 17 routes (17 active, 0 holddown, 0 hidden)
++ = Active Route, - = Last Active, * = Both
+
+0.0.0.0/0          *[OSPF/150] 00:08:53, metric 0, tag 0
+                    >  to 10.0.12.2 via ge-0/0/0.0
+10.0.0.1/32        *[Direct/0] 00:29:04
+                    >  via lo0.0
+10.0.0.2/32        *[OSPF/10] 00:28:30, metric 10
+                    >  to 10.0.12.2 via ge-0/0/0.0
+10.0.12.0/24       *[Direct/0] 00:28:40
+                    >  via ge-0/0/0.0
+10.0.12.1/32       *[Local/0] 00:28:40
+                       Local via ge-0/0/0.0
+10.0.13.0/24       *[Direct/0] 00:28:40
+                    >  via ge-0/0/1.0
+10.0.13.1/32       *[Local/0] 00:28:40
+                       Local via ge-0/0/1.0
+10.0.23.0/24       *[OSPF/10] 00:28:30, metric 20
+                    >  to 10.0.12.2 via ge-0/0/0.0
+10.1.14.0/24       *[Direct/0] 00:28:40
+                    >  via ge-0/0/2.0
+10.1.14.1/32       *[Local/0] 00:28:40
+                       Local via ge-0/0/2.0
+10.2.0.7/32        *[OSPF/10] 00:28:23, metric 20
+                    >  to 10.0.12.2 via ge-0/0/0.0
+10.2.27.0/24       *[OSPF/10] 00:28:30, metric 20
+                    >  to 10.0.12.2 via ge-0/0/0.0
+10.5.0.9/32        *[OSPF/10] 00:28:30, metric 20
+                    >  to 10.0.12.2 via ge-0/0/0.0
+10.5.28.0/24       *[OSPF/10] 00:28:30, metric 20
+                    >  to 10.0.12.2 via ge-0/0/0.0
+10.5.29.0/24       *[OSPF/10] 00:28:30, metric 20
+                    >  to 10.0.12.2 via ge-0/0/0.0
+10.5.89.0/24       *[OSPF/10] 00:28:30, metric 30
+                    >  to 10.0.12.2 via ge-0/0/0.0
+224.0.0.5/32       *[OSPF/10] 00:29:04, metric 1
+                       MultiRecv
+
+inet6.0: 22 destinations, 22 routes (22 active, 0 holddown, 0 hidden)
++ = Active Route, - = Last Active, * = Both
+
+::/0               *[OSPF3/150] 00:08:53, metric 1024, tag 0
+                    >  to fe80::5200:ff:fe03:3 via ge-0/0/0.0
+fd00::1/128        *[Direct/0] 00:29:04
+                    >  via lo0.0
+fd00::2/128        *[OSPF3/10] 00:28:24, metric 10
+                    >  to fe80::5200:ff:fe03:3 via ge-0/0/0.0
+fd00:0:12::/64     *[Direct/0] 00:28:30
+                    >  via ge-0/0/0.0
+fd00:0:12::1/128   *[Local/0] 00:28:30
+                       Local via ge-0/0/0.0
+fd00:0:13::/64     *[Direct/0] 00:28:30
+                    >  via ge-0/0/1.0
+fd00:0:13::1/128   *[Local/0] 00:28:30
+                       Local via ge-0/0/1.0
+fd00:0:23::/64     *[OSPF3/10] 00:28:24, metric 20
+                    >  to fe80::5200:ff:fe03:3 via ge-0/0/0.0
+fd00:1:14::/64     *[Direct/0] 00:28:30
+                    >  via ge-0/0/2.0
+fd00:1:14::1/128   *[Local/0] 00:28:30
+                       Local via ge-0/0/2.0
+fd00:2::7/128      *[OSPF3/10] 00:28:19, metric 20
+                    >  to fe80::5200:ff:fe03:3 via ge-0/0/0.0
+fd00:2:27::/64     *[OSPF3/10] 00:28:24, metric 20
+                    >  to fe80::5200:ff:fe03:3 via ge-0/0/0.0
+fd00:5::9/128      *[OSPF3/10] 00:28:14, metric 20
+                    >  to fe80::5200:ff:fe03:3 via ge-0/0/0.0
+fd00:5:28::/64     *[OSPF3/10] 00:28:24, metric 20
+                    >  to fe80::5200:ff:fe03:3 via ge-0/0/0.0
+fd00:5:29::/64     *[OSPF3/10] 00:28:24, metric 20
+                    >  to fe80::5200:ff:fe03:3 via ge-0/0/0.0
+fd00:5:89::/64     *[OSPF3/10] 00:28:14, metric 30
+                    >  to fe80::5200:ff:fe03:3 via ge-0/0/0.0
+fe80::5200:f:fc01:0/128
+                   *[Direct/0] 00:29:04
+                    >  via lo0.0
+fe80::5200:ff:fe01:1/128
+                   *[Local/0] 00:28:30
+                       Local via ge-0/0/0.0
+fe80::5200:ff:fe01:2/128
+                   *[Local/0] 00:28:30
+                       Local via ge-0/0/1.0
+fe80::5200:ff:fe01:3/128
+                   *[Local/0] 00:28:30
+                       Local via ge-0/0/2.0
+ff02::2/128        *[INET6/0] 00:29:04
+                       MultiRecv
+ff02::5/128        *[OSPF3/10] 00:29:04, metric 1
+                       MultiRecv
+
+root@R1> show ospf neighbor
+Address          Interface              State           ID               Pri  Dead
+10.0.12.2        ge-0/0/0.0             Full            10.0.0.2         128    33
+
+root@R1> show ospf interface
+Interface           State   Area            DR ID           BDR ID          Nbrs
+ge-0/0/0.0          PtToPt  0.0.0.0         0.0.0.0         0.0.0.0            1
+ge-0/0/1.0          PtToPt  0.0.0.0         0.0.0.0         0.0.0.0            0
+lo0.0               DRother 0.0.0.0         0.0.0.0         0.0.0.0            0
+ge-0/0/2.0          PtToPt  0.0.0.1         0.0.0.0         0.0.0.0            0
+
+root@R1> show ospf database
+
+    OSPF database, Area 0.0.0.0
+ Type       ID               Adv Rtr           Seq      Age  Opt  Cksum  Len
+Router  *10.0.0.1         10.0.0.1         0x80000004   174  0x22 0x1061  72
+Router   10.0.0.2         10.0.0.2         0x80000004    34  0x22 0xfe63  72
+Summary *10.1.14.0        10.0.0.1         0x80000002   540  0x22 0x62ab  28
+Summary  10.2.0.7         10.0.0.2         0x80000001  1715  0x22 0xa66d  28
+Summary  10.2.27.0        10.0.0.2         0x80000002   745  0x22 0xc03e  28
+Summary  10.5.0.9         10.0.0.2         0x80000001  1726  0x22 0x6ea0  28
+Summary  10.5.28.0        10.0.0.2         0x80000002   542  0x22 0x9169  28
+Summary  10.5.29.0        10.0.0.2         0x80000002   339  0x22 0x8673  28
+Summary  10.5.89.0        10.0.0.2         0x80000001  1726  0x22 0x565e  28
+
+    OSPF database, Area 0.0.0.1
+ Type       ID               Adv Rtr           Seq      Age  Opt  Cksum  Len
+Router  *10.0.0.1         10.0.0.1         0x80000002  1088  0x20 0x9c5d  36
+Summary *0.0.0.0          10.0.0.1         0x80000002   357  0x20 0xa97f  28
+Summary *10.0.0.1         10.0.0.1         0x80000002  1271  0x20 0xb86f  28
+Summary *10.0.0.2         10.0.0.1         0x80000001  1719  0x20 0x1509  28
+Summary *10.0.12.0        10.0.0.1         0x80000002   905  0x20 0xa270  28
+Summary *10.0.13.0        10.0.0.1         0x80000002   722  0x20 0x977a  28
+Summary *10.0.23.0        10.0.0.1         0x80000001  1719  0x20 0x8f6f  28
+Summary *10.2.0.7         10.0.0.1         0x80000001  1712  0x20 0x2fdd  28
+Summary *10.2.27.0        10.0.0.1         0x80000001  1719  0x20 0x4bad  28
+Summary *10.5.0.9         10.0.0.1         0x80000001  1719  0x20 0xf611  28
+Summary *10.5.28.0        10.0.0.1         0x80000001  1719  0x20 0x1cd8  28
+Summary *10.5.29.0        10.0.0.1         0x80000001  1719  0x20 0x11e2  28
+Summary *10.5.89.0        10.0.0.1         0x80000001  1719  0x20 0xdece  28
+    OSPF AS SCOPE link state database
+ Type       ID               Adv Rtr           Seq      Age  Opt  Cksum  Len
+Extern   0.0.0.0          10.0.0.2         0x80000002   543  0x22 0x8111  36

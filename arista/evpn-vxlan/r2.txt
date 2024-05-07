@@ -1,0 +1,141 @@
+R2#show run
+! Command: show running-config
+! device: R2 (vEOS, EOS-4.24.2.1F)
+!
+! boot system flash:/vEOS-lab.swi
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model multi-agent
+!
+hostname R2
+!
+spanning-tree mode mstp
+!
+no aaa root
+!
+username admin privilege 15 role network-admin secret sha512 $6$IqhMMQ9CIQgbqS5r$tVWGyY5V/NWEUsDs.Kf.GJecaWrrOGhxM3Icqc6hb6u8juvYbFYZjSPuRP6j28M81RmQzQOBxzPd41OvyTDWx.
+!
+vlan 100,1001
+!
+vrf instance MGMT
+!
+vrf instance YZGUY
+!
+interface Ethernet1
+   mtu 9214
+   no switchport
+   ip address 192.168.11.1/31
+!
+interface Ethernet2
+   mtu 9214
+   no switchport
+   ip address 192.168.11.4/31
+!
+interface Ethernet3
+   description Client2
+   switchport access vlan 100
+!
+interface Ethernet4
+   description "Client22"
+   switchport access vlan 1001
+!
+interface Ethernet5
+   description "FW - eth1"
+   switchport mode trunk
+!
+interface Ethernet6
+   description "FW - eth2"
+   no switchport
+   vrf YZGUY
+   ip address 192.168.99.1/31
+!
+interface Ethernet7
+!
+interface Ethernet8
+!
+interface Ethernet9
+!
+interface Ethernet10
+!
+interface Ethernet11
+!
+interface Ethernet12
+   switchport mode trunk
+!
+interface Loopback0
+   ip address 192.168.10.2/32
+!
+interface Loopback1
+   ip address 192.168.9.2/32
+!
+interface Management1
+   vrf MGMT
+   ip address 192.168.221.51/24
+!
+interface Vlan1001
+   vrf YZGUY
+   ip address 192.168.6.1/24
+   ip helper-address 192.168.99.0
+!
+interface Vxlan1
+   vxlan source-interface Loopback1
+   vxlan udp-port 4789
+   vxlan vlan 100 vni 100
+   vxlan vrf YZGUY vni 1000
+   vxlan learn-restrict any
+!
+ip routing
+no ip routing vrf MGMT
+ip routing vrf YZGUY
+!
+ipv6 unicast-routing
+!
+router bgp 65002
+   router-id 192.168.10.2
+   no bgp default ipv4-unicast
+   maximum-paths 16 ecmp 64
+   neighbor OVERLAY peer group
+   neighbor OVERLAY update-source Loopback0
+   neighbor OVERLAY ebgp-multihop 2
+   neighbor OVERLAY send-community extended
+   neighbor OVERLAY maximum-routes 12000
+   neighbor UNDERLAY peer group
+   neighbor UNDERLAY maximum-routes 12000
+   neighbor 192.168.10.1 peer group OVERLAY
+   neighbor 192.168.10.1 remote-as 65001
+   neighbor 192.168.10.3 peer group OVERLAY
+   neighbor 192.168.10.3 remote-as 65003
+   neighbor 192.168.11.0 peer group UNDERLAY
+   neighbor 192.168.11.0 remote-as 65001
+   neighbor 192.168.11.5 peer group UNDERLAY
+   neighbor 192.168.11.5 remote-as 65003
+   !
+   vlan 100
+      rd auto
+      route-target both 100:100
+      redistribute learned
+   !
+   address-family evpn
+      neighbor OVERLAY activate
+   !
+   address-family ipv4
+      neighbor 192.168.10.1 activate
+      neighbor 192.168.10.3 activate
+      neighbor 192.168.11.0 activate
+      neighbor 192.168.11.5 activate
+      network 192.168.9.2/32
+      network 192.168.10.2/32
+   !
+   vrf YZGUY
+      rd 192.168.10.2:1
+      route-target import evpn 1:1000
+      route-target export evpn 1:1000
+      neighbor 192.168.99.0 remote-as 65000
+      neighbor 192.168.99.0 maximum-routes 12000
+      redistribute connected
+      !
+      address-family ipv4
+         neighbor 192.168.99.0 activate
+!
+end

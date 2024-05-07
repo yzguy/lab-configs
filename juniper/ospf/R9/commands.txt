@@ -1,0 +1,112 @@
+root@R9> show route
+
+inet.0: 16 destinations, 16 routes (16 active, 0 holddown, 0 hidden)
++ = Active Route, - = Last Active, * = Both
+
+0.0.0.0/0          *[OSPF/150] 00:13:46, metric 0, tag 0
+                    >  to 10.5.29.2 via ge-0/0/0.0
+10.0.0.1/32        *[OSPF/10] 00:33:19, metric 20
+                    >  to 10.5.29.2 via ge-0/0/0.0
+10.0.0.2/32        *[OSPF/10] 00:33:24, metric 10
+                    >  to 10.5.29.2 via ge-0/0/0.0
+10.0.12.0/24       *[OSPF/10] 00:33:24, metric 20
+                    >  to 10.5.29.2 via ge-0/0/0.0
+10.0.13.0/24       *[OSPF/10] 00:33:19, metric 30
+                    >  to 10.5.29.2 via ge-0/0/0.0
+10.0.23.0/24       *[OSPF/10] 00:33:24, metric 20
+                    >  to 10.5.29.2 via ge-0/0/0.0
+10.1.14.0/24       *[OSPF/10] 00:33:19, metric 30
+                    >  to 10.5.29.2 via ge-0/0/0.0
+10.2.0.7/32        *[OSPF/10] 00:33:14, metric 20
+                    >  to 10.5.29.2 via ge-0/0/0.0
+10.2.27.0/24       *[OSPF/10] 00:33:24, metric 20
+                    >  to 10.5.29.2 via ge-0/0/0.0
+10.5.0.9/32        *[Direct/0] 00:34:03
+                    >  via lo0.0
+10.5.28.0/24       *[OSPF/10] 00:33:24, metric 20
+                    >  to 10.5.29.2 via ge-0/0/0.0
+10.5.29.0/24       *[Direct/0] 00:33:42
+                    >  via ge-0/0/0.0
+10.5.29.9/32       *[Local/0] 00:33:42
+                       Local via ge-0/0/0.0
+10.5.89.0/24       *[Direct/0] 00:33:42
+                    >  via ge-0/0/1.0
+10.5.89.9/32       *[Local/0] 00:33:42
+                       Local via ge-0/0/1.0
+224.0.0.5/32       *[OSPF/10] 00:34:04, metric 1
+                       MultiRecv
+
+inet6.0: 20 destinations, 20 routes (20 active, 0 holddown, 0 hidden)
++ = Active Route, - = Last Active, * = Both
+
+::/0               *[OSPF3/150] 00:13:46, metric 1024, tag 0
+                    >  to fe80::5200:ff:fe03:5 via ge-0/0/0.0
+fd00::1/128        *[OSPF3/10] 00:33:10, metric 20
+                    >  to fe80::5200:ff:fe03:5 via ge-0/0/0.0
+fd00::2/128        *[OSPF3/10] 00:33:10, metric 10
+                    >  to fe80::5200:ff:fe03:5 via ge-0/0/0.0
+fd00:0:12::/64     *[OSPF3/10] 00:33:10, metric 20
+                    >  to fe80::5200:ff:fe03:5 via ge-0/0/0.0
+fd00:0:13::/64     *[OSPF3/10] 00:33:10, metric 30
+                    >  to fe80::5200:ff:fe03:5 via ge-0/0/0.0
+fd00:0:23::/64     *[OSPF3/10] 00:33:10, metric 20
+                    >  to fe80::5200:ff:fe03:5 via ge-0/0/0.0
+fd00:1:14::/64     *[OSPF3/10] 00:33:10, metric 30
+                    >  to fe80::5200:ff:fe03:5 via ge-0/0/0.0
+fd00:2::7/128      *[OSPF3/10] 00:33:10, metric 20
+                    >  to fe80::5200:ff:fe03:5 via ge-0/0/0.0
+fd00:2:27::/64     *[OSPF3/10] 00:33:10, metric 20
+                    >  to fe80::5200:ff:fe03:5 via ge-0/0/0.0
+fd00:5::9/128      *[Direct/0] 00:34:03
+                    >  via lo0.0
+fd00:5:28::/64     *[OSPF3/10] 00:33:10, metric 20
+                    >  to fe80::5200:ff:fe03:5 via ge-0/0/0.0
+fd00:5:29::/64     *[Direct/0] 00:33:31
+                    >  via ge-0/0/0.0
+fd00:5:29::9/128   *[Local/0] 00:33:31
+                       Local via ge-0/0/0.0
+fd00:5:89::/64     *[Direct/0] 00:33:31
+                    >  via ge-0/0/1.0
+fd00:5:89::9/128   *[Local/0] 00:33:31
+                       Local via ge-0/0/1.0
+fe80::5200:f:fc10:0/128
+                   *[Direct/0] 00:34:03
+                    >  via lo0.0
+fe80::5200:ff:fe10:1/128
+                   *[Local/0] 00:33:31
+                       Local via ge-0/0/0.0
+fe80::5200:ff:fe10:2/128
+                   *[Local/0] 00:33:31
+                       Local via ge-0/0/1.0
+ff02::2/128        *[INET6/0] 00:34:03
+                       MultiRecv
+ff02::5/128        *[OSPF3/10] 00:34:04, metric 1
+                       MultiRecv
+
+root@R9> show ospf neighbor
+Address          Interface              State           ID               Pri  Dead
+10.5.29.2        ge-0/0/0.0             Full            10.0.0.2         128    31
+
+root@R9> show ospf interface
+Interface           State   Area            DR ID           BDR ID          Nbrs
+ge-0/0/0.0          PtToPt  0.0.0.5         0.0.0.0         0.0.0.0            1
+ge-0/0/1.0          PtToPt  0.0.0.5         0.0.0.0         0.0.0.0            0
+lo0.0               DRother 0.0.0.5         0.0.0.0         0.0.0.0            0
+
+root@R9> show ospf database
+
+    OSPF database, Area 0.0.0.5
+ Type       ID               Adv Rtr           Seq      Age  Opt  Cksum  Len
+Router   10.0.0.2         10.0.0.2         0x80000003   427  0x22 0x9e9d  60
+Router  *10.5.0.9         10.5.0.9         0x80000003  2021  0x22 0x4482  72
+Summary  10.0.0.1         10.0.0.2         0x80000001  2011  0x22 0xfa21  28
+Summary  10.0.0.2         10.0.0.2         0x80000002  1543  0x22 0x8a99  28
+Summary  10.0.12.0        10.0.0.2         0x80000002  1340  0x22 0x7e91  28
+Summary  10.0.13.0        10.0.0.2         0x80000001  2011  0x22 0xd92c  28
+Summary  10.0.23.0        10.0.0.2         0x80000002  1137  0x22 0x5ff   28
+Summary  10.1.14.0        10.0.0.2         0x80000001  2011  0x22 0xc241  28
+Summary  10.2.0.7         10.0.0.2         0x80000001  2006  0x22 0xa66d  28
+Summary  10.2.27.0        10.0.0.2         0x80000002   934  0x22 0xc03e  28
+    OSPF AS SCOPE link state database
+ Type       ID               Adv Rtr           Seq      Age  Opt  Cksum  Len
+Extern   0.0.0.0          10.0.0.2         0x80000002   834  0x22 0x8111  36
