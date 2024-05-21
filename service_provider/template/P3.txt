@@ -1,0 +1,35 @@
+set version 23.2R1.15
+set system host-name P3
+set system root-authentication encrypted-password "$6$pskmSHPX$7dcZ9olU8Xe3RKpTRdLOZGfQLmIyPH.w57QxKLUnC70SoCtaFCNr5Ok8cdnIegdcCLJelUAQMC/VKo81BFOj.1"
+set system syslog file interactive-commands interactive-commands any
+set system syslog file messages any notice
+set system syslog file messages authorization info
+set interfaces ge-0/0/0 description RR12
+set interfaces ge-0/0/0 unit 0 family inet address 10.0.33.3/24
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family inet6 address fd00::33:3/64
+set interfaces ge-0/0/1 description P1
+set interfaces ge-0/0/1 unit 0 family inet address 10.0.13.3/24
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family inet6 address fd00::13:3/64
+set interfaces ge-0/0/4 description P4
+set interfaces ge-0/0/4 unit 0 family inet address 10.0.34.3/24
+set interfaces ge-0/0/4 unit 0 family iso
+set interfaces ge-0/0/4 unit 0 family inet6 address fd00::34:3/64
+set interfaces ge-0/0/7 description PE7
+set interfaces ge-0/0/7 unit 0 family inet address 10.0.37.3/24
+set interfaces ge-0/0/7 unit 0 family iso
+set interfaces ge-0/0/7 unit 0 family inet6 address fd00::37:3/64
+set interfaces fxp0 unit 0
+set interfaces lo0 unit 0 family inet address 10.0.0.3/32
+set interfaces lo0 unit 0 family iso address 49.0000.1000.0000.0003.00
+set interfaces lo0 unit 0 family inet6 address fd00::3/128
+set routing-options router-id 10.0.0.3
+set protocols isis interface ge-0/0/0.0 point-to-point
+set protocols isis interface ge-0/0/1.0 point-to-point
+set protocols isis interface ge-0/0/4.0 point-to-point
+set protocols isis interface ge-0/0/7.0 point-to-point
+set protocols isis interface lo0.0
+set protocols isis level 2 wide-metrics-only
+set protocols isis level 1 disable
+set protocols lldp interface all
