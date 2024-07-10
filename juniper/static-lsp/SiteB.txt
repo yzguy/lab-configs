@@ -1,0 +1,24 @@
+set interfaces dummy dum0 address '203.0.113.1/24'
+set interfaces ethernet eth0 address '10.1.102.2/24'
+set interfaces loopback lo
+set protocols bgp address-family ipv4-unicast network 203.0.113.0/24
+set protocols bgp neighbor 10.1.102.1 address-family ipv4-unicast
+set protocols bgp neighbor 10.1.102.1 remote-as '199344'
+set protocols bgp system-as '65002'
+set service ntp server time1.vyos.net
+set service ntp server time2.vyos.net
+set service ntp server time3.vyos.net
+set system config-management commit-revisions '100'
+set system conntrack modules ftp
+set system conntrack modules h323
+set system conntrack modules nfs
+set system conntrack modules pptp
+set system conntrack modules sip
+set system conntrack modules sqlnet
+set system conntrack modules tftp
+set system console device ttyS0 speed '115200'
+set system host-name 'SiteB'
+set system login user vyos authentication encrypted-password '$6$rounds=656000$.oFaLY/lUXjWHHoU$ioN62mKNnImcFYhUiU.8AKXqYAtYZEuQpdAMGC8zxUrKO5ku4ZURrmcu.bLve9iKAn94hh1v3oqIVQ8Zx5bRo1'
+set system login user vyos authentication plaintext-password ''
+set system syslog global facility all level 'info'
+set system syslog global facility local7 level 'debug'

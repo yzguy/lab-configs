@@ -1,0 +1,79 @@
+## Last commit: 2024-07-09 02:19:18 UTC by root
+version 23.2R1.15;
+system {
+    host-name R3;
+    root-authentication {
+        encrypted-password "$6$bJWRyNxV$l2wWgZxYdatecFbAFslAK3QMzB15cJuHmeV3ck95jqIt32ktyQzsmfRK5gG.Yv.culOec222KSb2uim6OOTM2/"; ## SECRET-DATA
+    }
+    syslog {
+        file interactive-commands {
+            interactive-commands any;
+        }
+        file messages {
+            any notice;
+            authorization info;
+        }
+    }
+}
+interfaces {
+    ge-0/0/2 {
+        unit 0 {
+            family inet {
+                address 10.2.3.3/24;
+            }
+            family iso;
+            family mpls;
+        }
+    }
+    ge-0/0/4 {
+        unit 0 {
+            family inet {
+                address 10.3.4.3/24;
+            }
+            family iso;
+            family mpls;
+        }
+    }
+    ge-0/0/8 {
+        unit 0 {
+            family inet {
+                address 10.3.8.3/24;
+            }
+            family iso;
+            family mpls;
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 192.168.1.3/32;
+            }
+            family iso {
+                address 49.0000.0000.0000.0003.00;
+            }
+            family mpls;
+        }
+    }
+}
+routing-options {
+    router-id 192.168.1.3;
+}
+protocols {
+    isis {
+        interface ge-0/0/2.0;
+        interface ge-0/0/4.0;
+        interface ge-0/0/8.0;
+        interface lo0.0;
+        level 2 wide-metrics-only;
+        level 1 disable;
+    }
+    mpls {
+        interface ge-0/0/2.0;
+        interface ge-0/0/8.0;
+        interface ge-0/0/4.0;
+        interface lo0.0;
+    }
+    lldp {
+        interface all;
+    }
+}
