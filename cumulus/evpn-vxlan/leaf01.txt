@@ -1,0 +1,170 @@
+- header:
+    model: VX
+    nvue-api-version: nvue_v1
+    rev-id: 1.0
+    version: Cumulus Linux 5.8.0
+- set:
+    bridge:
+      domain:
+        br_default:
+          type: vlan-aware
+          vlan:
+            '10':
+              vni:
+                '10': {}
+            '20':
+              vni:
+                '20': {}
+            '30':
+              vni:
+                '30': {}
+    evpn:
+      enable: on
+    interface:
+      lo:
+        ip:
+          address:
+            10.0.0.3/32: {}
+            fd00::3/128: {}
+        type: loopback
+      swp1-2:
+        bridge:
+          domain:
+            br_default:
+              access: 10
+      swp1-6:
+        link:
+          state:
+            up: {}
+      swp1-7:
+        type: swp
+      swp7:
+        link:
+          state:
+            down: {}
+      vlan10:
+        ip:
+          vrr:
+            address:
+              192.168.10.1/24: {}
+        vlan: 10
+      vlan10,20:
+        ip:
+          vrf: RED
+      vlan10,20,30:
+        ip:
+          vrr:
+            enable: on
+            state:
+              up: {}
+        type: svi
+      vlan20:
+        ip:
+          vrr:
+            address:
+              192.168.20.1/24: {}
+        vlan: 20
+      vlan30:
+        ip:
+          vrf: BLUE
+          vrr:
+            address:
+              192.168.30.1/24: {}
+        vlan: 30
+    nve:
+      vxlan:
+        enable: on
+        source:
+          address: auto
+    router:
+      bgp:
+        autonomous-system: 65003
+        enable: on
+        router-id: 10.0.0.3
+      vrr:
+        enable: on
+    system:
+      hostname: leaf01
+    vrf:
+      BLUE:
+        evpn:
+          enable: on
+          vni:
+            '1002': {}
+        router:
+          bgp:
+            address-family:
+              ipv4-unicast:
+                enable: on
+                redistribute:
+                  connected:
+                    enable: on
+                route-export:
+                  to-evpn:
+                    enable: on
+            autonomous-system: 65003
+            enable: on
+            router-id: 10.0.0.3
+      RED:
+        evpn:
+          enable: on
+          vni:
+            '1001': {}
+        router:
+          bgp:
+            address-family:
+              ipv4-unicast:
+                enable: on
+                redistribute:
+                  connected:
+                    enable: on
+                route-export:
+                  to-evpn:
+                    enable: on
+            autonomous-system: 65003
+            enable: on
+            router-id: 10.0.0.3
+      default:
+        router:
+          bgp:
+            address-family:
+              ipv4-unicast:
+                enable: on
+                network:
+                  10.0.0.3/32: {}
+              ipv6-unicast:
+                enable: on
+                network:
+                  fd00::3/128: {}
+              l2vpn-evpn:
+                enable: on
+            enable: on
+            neighbor:
+              fd00::9:
+                peer-group: RS
+                type: numbered
+              swp6:
+                peer-group: FABRIC
+                type: unnumbered
+              swp7:
+                peer-group: FABRIC
+                type: unnumbered
+            peer-group:
+              FABRIC:
+                address-family:
+                  ipv4-unicast:
+                    enable: on
+                  ipv6-unicast:
+                    enable: on
+                remote-as: external
+              RS:
+                address-family:
+                  ipv4-unicast:
+                    enable: off
+                  ipv6-unicast:
+                    enable: off
+                  l2vpn-evpn:
+                    enable: on
+                multihop-ttl: 255
+                remote-as: external
+                update-source: lo

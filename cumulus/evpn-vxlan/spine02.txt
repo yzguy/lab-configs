@@ -1,0 +1,78 @@
+- header:
+    model: VX
+    nvue-api-version: nvue_v1
+    rev-id: 1.0
+    version: Cumulus Linux 5.8.0
+- set:
+    interface:
+      eth0:
+        ip:
+          address:
+            dhcp: {}
+        type: eth
+      lo:
+        ip:
+          address:
+            10.0.0.2/32: {}
+            fd00::2/128: {}
+        type: loopback
+      swp1-11:
+        link:
+          state:
+            up: {}
+        type: swp
+    router:
+      bgp:
+        autonomous-system: 65000
+        enable: on
+        router-id: 10.0.0.2
+    system:
+      aaa:
+        user:
+          bitplumber:
+            hashed-password: '*'
+            role: system-admin
+      hostname: spine02
+      timezone: America/New_York
+    vrf:
+      default:
+        router:
+          bgp:
+            address-family:
+              ipv4-unicast:
+                enable: on
+                network:
+                  10.0.0.2/32: {}
+              ipv6-unicast:
+                enable: on
+                network:
+                  fd00::2/128: {}
+            enable: on
+            neighbor:
+              swp1:
+                peer-group: FABRIC
+                type: unnumbered
+              swp2:
+                peer-group: FABRIC
+                type: unnumbered
+              swp3:
+                peer-group: FABRIC
+                type: unnumbered
+              swp4:
+                peer-group: FABRIC
+                type: unnumbered
+              swp10:
+                peer-group: FABRIC
+                type: unnumbered
+              swp11:
+                peer-group: FABRIC
+                type: unnumbered
+            peer-group:
+              FABRIC:
+                address-family:
+                  ipv4-unicast:
+                    enable: on
+                  ipv6-unicast:
+                    enable: on
+                remote-as: external
+      mgmt: {}

@@ -1,0 +1,286 @@
+interfaces {
+    ethernet eth0 {
+        address dhcp
+        hw-id 50:00:00:0d:00:00
+        ipv6 {
+            address {
+                autoconf
+            }
+        }
+    }
+    ethernet eth1 {
+        address 10.0.0.9/32
+        address fd00::9/128
+        hw-id 50:00:00:0d:00:01
+    }
+    ethernet eth2 {
+        address 10.0.0.9/32
+        address fd00::9/128
+        hw-id 50:00:00:0d:00:02
+    }
+    ethernet eth3 {
+        hw-id 50:00:00:0d:00:03
+    }
+    ethernet eth4 {
+        hw-id 50:00:00:0d:00:04
+    }
+    ethernet eth5 {
+        hw-id 50:00:00:0d:00:05
+    }
+    ethernet eth6 {
+        hw-id 50:00:00:0d:00:06
+    }
+    ethernet eth7 {
+        hw-id 50:00:00:0d:00:07
+    }
+    loopback lo {
+        address 10.0.0.9/32
+        address fd00::9/128
+    }
+}
+protocols {
+    bgp {
+        address-family {
+            ipv4-unicast {
+                network 10.0.0.9/32 {
+                }
+            }
+            ipv6-unicast {
+                network fd00::9/128 {
+                }
+            }
+            l2vpn-evpn {
+            }
+        }
+        listen {
+            range fd00::/64 {
+                peer-group RS
+            }
+        }
+        neighbor eth1 {
+            interface {
+                peer-group FABRIC
+            }
+            solo
+        }
+        neighbor eth2 {
+            interface {
+                peer-group FABRIC
+            }
+            solo
+        }
+        parameters {
+            bestpath {
+                as-path {
+                    multipath-relax
+                }
+            }
+            log-neighbor-changes
+            router-id 10.0.0.9
+        }
+        peer-group FABRIC {
+            address-family {
+                ipv4-unicast {
+                }
+                ipv6-unicast {
+                }
+            }
+            capability {
+                extended-nexthop
+            }
+            remote-as external
+        }
+        peer-group RS {
+            address-family {
+                l2vpn-evpn {
+                    route-server-client
+                }
+            }
+            ebgp-multihop 255
+            remote-as external
+            update-source lo
+        }
+        system-as 199344
+    }
+}
+service {
+    lldp {
+        interface all {
+        }
+    }
+    ntp {
+        server time1.vyos.net {
+        }
+        server time2.vyos.net {
+        }
+        server time3.vyos.net {
+        }
+    }
+    ssh {
+    }
+}
+system {
+    config-management {
+vyos@edge01:~$ ls
+vyos@edge01:~$ show configuration
+interfaces {
+    ethernet eth0 {
+        address dhcp
+        hw-id 50:00:00:0d:00:00
+        ipv6 {
+            address {
+                autoconf
+            }
+        }
+    }
+    ethernet eth1 {
+        address 10.0.0.9/32
+        address fd00::9/128
+        hw-id 50:00:00:0d:00:01
+    }
+    ethernet eth2 {
+        address 10.0.0.9/32
+        address fd00::9/128
+        hw-id 50:00:00:0d:00:02
+    }
+    ethernet eth3 {
+        hw-id 50:00:00:0d:00:03
+    }
+    ethernet eth4 {
+        hw-id 50:00:00:0d:00:04
+    }
+    ethernet eth5 {
+        hw-id 50:00:00:0d:00:05
+    }
+    ethernet eth6 {
+        hw-id 50:00:00:0d:00:06
+    }
+    ethernet eth7 {
+        hw-id 50:00:00:0d:00:07
+    }
+    loopback lo {
+        address 10.0.0.9/32
+        address fd00::9/128
+    }
+}
+protocols {
+    bgp {
+        address-family {
+            ipv4-unicast {
+                network 10.0.0.9/32 {
+                }
+            }
+            ipv6-unicast {
+                network fd00::9/128 {
+                }
+            }
+            l2vpn-evpn {
+            }
+        }
+        listen {
+            range fd00::/64 {
+                peer-group RS
+            }
+        }
+        neighbor eth1 {
+            interface {
+                peer-group FABRIC
+            }
+            solo
+        }
+        neighbor eth2 {
+            interface {
+                peer-group FABRIC
+            }
+            solo
+        }
+        parameters {
+            bestpath {
+                as-path {
+                    multipath-relax
+                }
+            }
+            log-neighbor-changes
+            router-id 10.0.0.9
+        }
+        peer-group FABRIC {
+            address-family {
+                ipv4-unicast {
+                }
+                ipv6-unicast {
+                }
+            }
+            capability {
+                extended-nexthop
+            }
+            remote-as external
+        }
+        peer-group RS {
+            address-family {
+                l2vpn-evpn {
+                    route-server-client
+                }
+            }
+            ebgp-multihop 255
+            remote-as external
+            update-source lo
+        }
+        system-as 199344
+    }
+}
+service {
+    lldp {
+        interface all {
+        }
+    }
+    ntp {
+        server time1.vyos.net {
+        }
+        server time2.vyos.net {
+        }
+        server time3.vyos.net {
+        }
+    }
+    ssh {
+    }
+}
+system {
+    config-management {
+        commit-revisions 100
+    }
+    conntrack {
+        modules {
+            ftp
+            h323
+            nfs
+            pptp
+            sip
+            sqlnet
+            tftp
+        }
+    }
+    console {
+        device ttyS0 {
+            speed 115200
+        }
+    }
+    host-name edge01
+    login {
+        user vyos {
+            authentication {
+                encrypted-password ****************
+                plaintext-password ****************
+            }
+        }
+    }
+    syslog {
+        global {
+            facility all {
+                level info
+            }
+            facility local7 {
+                level debug
+            }
+        }
+    }
+}

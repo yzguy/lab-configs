@@ -1,0 +1,134 @@
+- header:
+    model: VX
+    nvue-api-version: nvue_v1
+    rev-id: 1.0
+    version: Cumulus Linux 5.8.0
+- set:
+    bridge:
+      domain:
+        br_default:
+          type: vlan-aware
+          vlan:
+            '10':
+              vni:
+                '10': {}
+            '20':
+              vni:
+                '20': {}
+            '30':
+              vni:
+                '30': {}
+    evpn:
+      enable: on
+    interface:
+      bond2:
+        bond:
+          member:
+            swp2: {}
+          mlag:
+            enable: on
+            id: 2
+        bridge:
+          domain:
+            br_default:
+              vlan:
+                10,20,30: {}
+        type: bond
+      lo:
+        ip:
+          address:
+            10.0.0.8/32: {}
+            fd00::8/128: {}
+        type: loopback
+      peerlink:
+        bond:
+          member:
+            swp4: {}
+            swp5: {}
+        type: peerlink
+      peerlink.4094:
+        base-interface: peerlink
+        type: sub
+        vlan: 4094
+      swp1-7:
+        link:
+          state:
+            up: {}
+        type: swp
+    mlag:
+      backup:
+        fd00::7: {}
+      enable: on
+      init-delay: 10
+      peer-ip: linklocal
+      priority: 2000
+    nve:
+      vxlan:
+        enable: on
+        mlag:
+          shared-address: 10.0.1.1
+        source:
+          address: auto
+    router:
+      bgp:
+        autonomous-system: 65008
+        enable: on
+        router-id: 10.0.0.8
+      vrr:
+        enable: on
+    system:
+      global:
+        anycast-mac: 44:38:39:BE:EF:FF
+      hostname: exit02
+    vrf:
+      default:
+        router:
+          bgp:
+            address-family:
+              ipv4-unicast:
+                enable: on
+                network:
+                  10.0.0.8/32: {}
+                  10.0.1.1/32: {}
+              ipv6-unicast:
+                enable: on
+                network:
+                  fd00::8/128: {}
+              l2vpn-evpn:
+                enable: on
+            enable: on
+            neighbor:
+              fd00::9:
+                peer-group: RS
+                type: numbered
+              peerlink.4094:
+                peer-group: FABRIC
+                type: unnumbered
+              swp1:
+                peer-group: FABRIC
+                type: unnumbered
+              swp6:
+                peer-group: FABRIC
+                type: unnumbered
+              swp7:
+                peer-group: FABRIC
+                type: unnumbered
+            peer-group:
+              FABRIC:
+                address-family:
+                  ipv4-unicast:
+                    enable: on
+                  ipv6-unicast:
+                    enable: on
+                remote-as: external
+              RS:
+                address-family:
+                  ipv4-unicast:
+                    enable: off
+                  ipv6-unicast:
+                    enable: off
+                  l2vpn-evpn:
+                    enable: on
+                multihop-ttl: 255
+                remote-as: external
+                update-source: lo
