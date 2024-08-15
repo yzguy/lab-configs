@@ -1,19 +1,42 @@
-set interfaces ethernet eth1 address '10.0.33.12/24'
-set interfaces ethernet eth1 address 'fd00::33:12/64'
+
+set interfaces ethernet eth0 offload gro
+set interfaces ethernet eth0 offload gso
+set interfaces ethernet eth0 offload sg
+set interfaces ethernet eth0 offload tso
+set interfaces ethernet eth1 address '10.3.12.12/24'
 set interfaces ethernet eth1 description 'P3'
-set interfaces ethernet eth2 address '10.0.44.12/24'
-set interfaces ethernet eth2 address 'fd00::44:12/64'
+set interfaces ethernet eth1 offload gro
+set interfaces ethernet eth1 offload gso
+set interfaces ethernet eth1 offload sg
+set interfaces ethernet eth1 offload tso
+set interfaces ethernet eth2 address '10.4.12.12/24'
 set interfaces ethernet eth2 description 'P4'
-set interfaces loopback lo address '10.0.0.12/32'
+set interfaces ethernet eth2 offload gro
+set interfaces ethernet eth2 offload gso
+set interfaces ethernet eth2 offload sg
+set interfaces ethernet eth2 offload tso
+set interfaces ethernet eth3 offload gro
+set interfaces ethernet eth3 offload gso
+set interfaces ethernet eth3 offload sg
+set interfaces ethernet eth3 offload tso
 set interfaces loopback lo address 'fd00::12/128'
+set interfaces loopback lo address '192.168.0.12/32'
+set protocols bgp listen range 192.168.0.0/24 peer-group 'RR'
+set protocols bgp listen range fd00::/64 peer-group 'RR'
+set protocols bgp parameters cluster-id '192.168.0.0'
+set protocols bgp parameters router-id '192.168.0.12'
+set protocols bgp peer-group RR address-family ipv4-vpn route-reflector-client
+set protocols bgp peer-group RR address-family ipv6-vpn route-reflector-client
+set protocols bgp peer-group RR remote-as 'internal'
+set protocols bgp peer-group RR update-source 'lo'
+set protocols bgp system-as '199344'
 set protocols isis dynamic-hostname
 set protocols isis interface eth1 network point-to-point
 set protocols isis interface eth2 network point-to-point
+set protocols isis interface lo passive
 set protocols isis level 'level-2'
 set protocols isis metric-style 'wide'
 set protocols isis net '49.0000.1000.0000.0012.00'
-set protocols isis redistribute ipv4 connected level-2
-set protocols isis redistribute ipv6 connected level-2
 set service lldp interface all
 set service ntp server time1.vyos.net
 set service ntp server time2.vyos.net

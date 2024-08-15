@@ -5,31 +5,42 @@ set system syslog file interactive-commands interactive-commands any
 set system syslog file messages any notice
 set system syslog file messages authorization info
 set interfaces ge-0/0/0 description RR11
-set interfaces ge-0/0/0 unit 0 family inet address 10.0.11.1/24
+set interfaces ge-0/0/0 unit 0 family inet address 10.1.11.1/24
 set interfaces ge-0/0/0 unit 0 family iso
-set interfaces ge-0/0/0 unit 0 family inet6 address fd00::11:1/64
+set interfaces ge-0/0/0 unit 0 family inet6 unnumbered-address lo0.0
+set interfaces ge-0/0/0 unit 0 family mpls
 set interfaces ge-0/0/2 description P2
-set interfaces ge-0/0/2 unit 0 family inet address 10.0.12.1/24
+set interfaces ge-0/0/2 unit 0 family inet unnumbered-address lo0.0
 set interfaces ge-0/0/2 unit 0 family iso
-set interfaces ge-0/0/2 unit 0 family inet6 address fd00::12:1/64
+set interfaces ge-0/0/2 unit 0 family inet6 unnumbered-address lo0.0
+set interfaces ge-0/0/2 unit 0 family mpls
 set interfaces ge-0/0/3 description P3
-set interfaces ge-0/0/3 unit 0 family inet address 10.0.13.1/24
+set interfaces ge-0/0/3 unit 0 family inet unnumbered-address lo0.0
 set interfaces ge-0/0/3 unit 0 family iso
-set interfaces ge-0/0/3 unit 0 family inet6 address fd00::13:1/64
+set interfaces ge-0/0/3 unit 0 family inet6 unnumbered-address lo0.0
+set interfaces ge-0/0/3 unit 0 family mpls
 set interfaces ge-0/0/5 description PE5
-set interfaces ge-0/0/5 unit 0 family inet address 10.0.15.1/24
+set interfaces ge-0/0/5 unit 0 family inet unnumbered-address lo0.0
 set interfaces ge-0/0/5 unit 0 family iso
-set interfaces ge-0/0/5 unit 0 family inet6 address fd00::15:1/64
+set interfaces ge-0/0/5 unit 0 family inet6 unnumbered-address lo0.0
+set interfaces ge-0/0/5 unit 0 family mpls
 set interfaces fxp0 unit 0
-set interfaces lo0 unit 0 family inet address 10.0.0.1/32
+set interfaces lo0 unit 0 family inet address 192.168.0.1/32
 set interfaces lo0 unit 0 family iso address 49.0000.1000.0000.0001.00
 set interfaces lo0 unit 0 family inet6 address fd00::1/128
-set routing-options router-id 10.0.0.1
+set routing-options router-id 192.168.0.1
 set protocols isis interface ge-0/0/0.0 point-to-point
 set protocols isis interface ge-0/0/2.0 point-to-point
 set protocols isis interface ge-0/0/3.0 point-to-point
 set protocols isis interface ge-0/0/5.0 point-to-point
-set protocols isis interface lo0.0
+set protocols isis interface lo0.0 passive
 set protocols isis level 2 wide-metrics-only
 set protocols isis level 1 disable
+set protocols isis reference-bandwidth 100g
+set chassis network-services enhanced-ip
+set protocols mpls icmp-tunneling
+set protocols mpls interface ge-0/0/0.0
+set protocols mpls interface ge-0/0/2.0
+set protocols mpls interface ge-0/0/3.0
+set protocols mpls interface ge-0/0/5.0
 set protocols lldp interface all
