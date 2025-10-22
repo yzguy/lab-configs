@@ -1,0 +1,21 @@
+network:
+    ethernets:
+        ens3: {}
+        ens4: {}
+    bonds:
+      bond0:
+        mtu: 9216
+        interfaces:
+          - ens3
+          - ens4
+        addresses:
+          - 192.168.100.10/24
+        routes:
+          - to: default
+            via: 192.168.100.1
+        parameters:
+          mode: 802.3ad
+          lacp-rate: fast
+          transmit-hash-policy: layer3+4
+          mii-monitor-interval: 100
+    version: 2
